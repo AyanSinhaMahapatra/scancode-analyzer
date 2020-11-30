@@ -29,7 +29,7 @@ import os
 from commoncode.testcase import FileBasedTesting
 
 from results_analyze.divide_cases import DivideCases, CraftRules
-from tests.load_test_data import TestDataIO
+from load_test_data import TestDataIO
 
 
 class TestDivideCases(FileBasedTesting):
@@ -214,7 +214,7 @@ class TestCraftRules(FileBasedTesting):
         dataframe = TestDataIO.load_dataframe_from_hdf5(test_file, 'before_rule_df')
 
         test_file = self.get_test_loc('craft-rules/rules-generated.txt')
-        list_strings = TestDataIO.load_list_from_txt(test_file)
+        list_strings = TestDataIO.load_json(test_file)
 
         test_craft_rule_files = ("Issues/1918-ntp-4.2.6/genshell.c",)
 
@@ -232,7 +232,7 @@ class TestCraftRules(FileBasedTesting):
         dataframe = TestDataIO.load_dataframe_from_hdf5(test_file, 'before_rule_df')
 
         test_file = self.get_test_loc('craft-rules/rules-generated-multiple-file.txt')
-        list_strings = TestDataIO.load_list_from_txt(test_file)
+        list_strings = TestDataIO.load_json(test_file)
 
         crafted_rules_multiple_files = craft_rules.craft_rules_by_group(dataframe)
 

@@ -29,26 +29,24 @@ import numpy as np
 # Docs - https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 pd.options.mode.chained_assignment = 'raise'  # default='warn'
 
-# All values of match_coverage less than this value is taken as incorrect scans
-MATCH_COVERAGE_THR = 100
+# All values of match_coverage less than this value are taken as `near-perfect-match-coverage` cases
+NEAR_PERFECT_MATCH_COVERAGE_THR = 100
+
+# Values of match_coverage less than this are taken as `imperfect-match-coverage` cases
+IMPERFECT_MATCH_COVERAGE_THR = 95
 
 # How many Lines in between has to be present for two matches being of a different group
 # (i.e. and therefore, different rule)
 LINES_THRESHOLD = 4
 
+# Boolean Column Fields which has License Class Information
+license_class_bools = ['is_license_text_lic', 'is_license_notice', 'is_license_tag',
+                       'is_license_reference']
+
+license_class_dict = {1: 'license_text', 2: 'license_notice', 3: 'license-tag', 4: 'license-reference'}
+
 
 class DivideCases:
-
-    def __init__(self):
-        """
-        Constructor for DivideCases, initializes some lists of Scan Attributes.
-        """
-
-        # Boolean Column Fields which has License Class Information
-        self.license_class_bools = ["is_license_text_lic", "is_license_notice", "is_license_tag",
-                                    "is_license_reference"]
-
-        self.license_class_dict = {1: 'license_text',  2: 'license_notice', 3: 'license-tag', 4: 'license-reference'}
 
     # TODO: Add another threshold and grouping based on stats (near-perfect scores, maybe 85/90 to 100)
     @staticmethod
@@ -66,7 +64,7 @@ class DivideCases:
         """
 
         # If any of the matches has non-perfect `match_coverage` (i.e. case 1 in docstring)
-        low_coverage_mask = df["match_coverage"] < MATCH_COVERAGE_THR
+        low_coverage_mask = df["match_coverage"] < IMPERFECT_MATCH_COVERAGE_THR
         is_low_coverage = low_coverage_mask.any()
 
         # If any of the matches has extra words (i.e. case 2 in docstring)
@@ -272,7 +270,7 @@ class DivideCases:
                 # Get License Class for the previous Group of Matches and Update to the corresponding rows of
                 # match_class_series Series
                 match_class_series[start_line_idx:end_line_idx + 1] = self.get_match_class(
-                    df.loc[start_line_idx:end_line_idx, self.license_class_bools])
+                    df.loc[start_line_idx:end_line_idx, license_class_bools])
 
                 # Update Group Index to point to the current group
                 start_line_idx, end_line_idx = [match, match]
@@ -283,7 +281,7 @@ class DivideCases:
         # Get License Class for the previous Group of Matches and Update `match_class_series` for the
         # Last Group of matches
         match_class_series[start_line_idx:end_line_idx + 1] = self.get_match_class(
-            df.loc[start_line_idx:end_line_idx, self.license_class_bools])
+            df.loc[start_line_idx:end_line_idx, license_class_bools])
 
         # Create a DataFrame with the columns as the Group and License Class information, with the Series Arrays
         grouped_df = pd.DataFrame({'match_group_number': group_number_series, 'match_class': match_class_series})

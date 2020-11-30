@@ -33,8 +33,9 @@ class LoadScanDataJSON:
 
     def __init__(self):
 
-        self.test_data_dir = os.path.join(os.path.dirname(__file__), 'data')
-        self.test_data_json_dir = os.path.join(os.path.dirname(__file__), 'data/results-test')
+        dirname = os.path.dirname(__file__)
+        self.test_data_dir = os.path.join(dirname, 'data')
+        self.test_data_json_dir = os.path.join(self.test_data_dir, 'results-test')
         self.mock_metadata_filename = 'sample_metadata.json'
         self.mock_metadata_filepath = os.path.join(self.test_data_dir, self.mock_metadata_filename)
         self.json_dict_metadata = DataFrameFileIO.import_data_from_json(self.mock_metadata_filepath)
@@ -77,7 +78,6 @@ class TestDataIO:
 
     @staticmethod
     def load_dataframe_from_hdf5(store_path, dataframe_name):
-
         read_from_h5 = pd.HDFStore(store_path)
         dataframe = read_from_h5[dataframe_name]
         read_from_h5.close()
@@ -86,21 +86,17 @@ class TestDataIO:
 
     @staticmethod
     def store_dataframe_to_hdf5(dataframe, store_path, dataframe_name):
-
         store_at_h5 = pd.HDFStore(store_path)
         store_at_h5[dataframe_name] = dataframe
         store_at_h5.close()
 
     @staticmethod
-    def load_list_from_txt(path):
-
+    def load_json(path):
         with open(path, 'r') as filehandle:
             listdata = json.load(filehandle)
-
         return listdata
 
     @staticmethod
-    def write_list_of_strings_to_txt(listdata, path):
-
+    def write_json(listdata, path):
         with open(path, 'w') as filehandle:
-            json.dump(listdata, filehandle)
+            json.dump(listdata, filehandle, indent=2)

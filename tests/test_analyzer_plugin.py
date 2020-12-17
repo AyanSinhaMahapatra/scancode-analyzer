@@ -35,6 +35,18 @@ class AnalyzerPlugin(FileBasedTesting):
     def test_analyze_results_plugin(self):
         test_dir = self.get_test_loc('scan-files/')
         result_file = self.get_temp_file('json')
-        args = ['--license', '--license-text', '--strip-root', test_dir, '--json', result_file, '--results-analyze']
+        args = ['--license', '--license-text', '--strip-root', test_dir, '--json', result_file, '--analyze-results']
         run_scan_click(args)
         check_json_scan(self.get_test_loc('results_analyzer_expected.json'), result_file)
+
+    def test_analyze_results_plugin_load_from_json_analyze(self):
+
+        input_json = self.get_test_loc('sample_files_result.json')
+        result_file = self.get_temp_file('json')
+        args = ['--from-json', input_json, '--json', result_file, '--analyze-results']
+        run_scan_click(args)
+        check_json_scan(self.get_test_loc('results_analyzer_from_sample_json_expected.json'), result_file)
+
+    def test_analyze_results_plugin_load_from_json_no_license_data_analyze(self):
+        test_dir = self.get_test_loc('scan-files/')
+        assert 0 == sum([0])

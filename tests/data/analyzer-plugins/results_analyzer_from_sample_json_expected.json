@@ -2,13 +2,35 @@
   "headers": [
     {
       "tool_name": "scancode-toolkit",
+      "tool_version": "3.2.3",
+      "options": {
+        "input": [
+          "tests/data/analyzer-plugins/scan-files/"
+        ],
+        "--json-pp": "tests/data/analyzer-plugins/sample_files_result.json",
+        "--license": true,
+        "--license-text": true
+      },
+      "notice": "Generated with ScanCode and provided on an \"AS IS\" BASIS, WITHOUT WARRANTIES\nOR CONDITIONS OF ANY KIND, either express or implied. No content created from\nScanCode should be considered or used as legal advice. Consult an Attorney\nfor any legal advice.\nScanCode is a free software code scanning tool from nexB Inc. and others.\nVisit https://github.com/nexB/scancode-toolkit/ for support and download.",
+      "start_timestamp": "2020-12-10T122628.422188",
+      "end_timestamp": "2020-12-10T122653.257147",
+      "duration": 24.83500647544861,
+      "message": null,
+      "errors": [],
+      "extra_data": {
+        "files_count": 4
+      }
+    },
+    {
+      "tool_name": "scancode-toolkit",
+      "tool_version": "3.2.3",
       "options": {
         "input": "<path>",
         "--analyze-results": true,
-        "--json": "<file>",
-        "--license": true,
-        "--license-text": true,
-        "--strip-root": true
+        "--from-json": [
+          true
+        ],
+        "--json": "<file>"
       },
       "notice": "Generated with ScanCode and provided on an \"AS IS\" BASIS, WITHOUT WARRANTIES\nOR CONDITIONS OF ANY KIND, either express or implied. No content created from\nScanCode should be considered or used as legal advice. Consult an Attorney\nfor any legal advice.\nScanCode is a free software code scanning tool from nexB Inc. and others.\nVisit https://github.com/nexB/scancode-toolkit/ for support and download.",
       "message": null,
@@ -20,7 +42,16 @@
   ],
   "files": [
     {
-      "path": "1912-libtool-2.2.10-argz.c",
+      "path": "scan-files",
+      "type": "directory",
+      "licenses": [],
+      "license_expressions": [],
+      "percentage_of_license_text": 0,
+      "license_detection_errors": [],
+      "scan_errors": []
+    },
+    {
+      "path": "scan-files/1912-libtool-2.2.10-argz.c",
       "type": "file",
       "licenses": [
         {
@@ -113,7 +144,7 @@
       "scan_errors": []
     },
     {
-      "path": "cmCommandArgumentParser.cxx",
+      "path": "scan-files/cmCommandArgumentParser.cxx",
       "type": "file",
       "licenses": [
         {
@@ -289,7 +320,7 @@
       "scan_errors": []
     },
     {
-      "path": "genshell.c",
+      "path": "scan-files/genshell.c",
       "type": "file",
       "licenses": [
         {
@@ -381,7 +412,7 @@
       "scan_errors": []
     },
     {
-      "path": "genshell.h",
+      "path": "scan-files/genshell.h",
       "type": "file",
       "licenses": [
         {

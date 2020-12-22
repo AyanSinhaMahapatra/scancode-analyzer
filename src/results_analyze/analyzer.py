@@ -22,9 +22,15 @@
 #  ScanCode is a free software code scanning tool from nexB Inc. and others.
 #  Visit https://github.com/nexB/scancode-toolkit/ for support and download.
 
-from results_analyze.divide_cases import IMPERFECT_MATCH_COVERAGE_THR, \
-    NEAR_PERFECT_MATCH_COVERAGE_THR, \
-    LINES_THRESHOLD
+# All values of match_coverage less than this value are taken as `near-perfect-match-coverage` cases
+NEAR_PERFECT_MATCH_COVERAGE_THR = 100
+
+# Values of match_coverage less than this are taken as `imperfect-match-coverage` cases
+IMPERFECT_MATCH_COVERAGE_THR = 95
+
+# How many Lines in between has to be present for two matches being of a different group
+# (i.e. and therefore, different rule)
+LINES_THRESHOLD = 4
 
 # Whether to Use the NLP BERT Models
 USE_LICENSE_CASE_BERT_MODEL = False
@@ -70,6 +76,7 @@ def is_correct_detection(matched_licenses):
     """
     Return True if all the license matches in a file-region are correct license detections,
     as they are either SPDX license tags, or the file content has a exact match with a license hash.
+
     :param matched_licenses: list
         List of license matches in a file-region.
     """
@@ -121,7 +128,7 @@ def is_extra_words(matched_licenses):
     match_query_coverage_diff_values = (calculate_query_coverage_coefficient(matched_license)
                                         for matched_license in matched_licenses)
     return any(match_query_coverage_diff_value > 0
-             for match_query_coverage_diff_value in match_query_coverage_diff_values)
+               for match_query_coverage_diff_value in match_query_coverage_diff_values)
 
 
 def is_false_positive(matched_licenses):
@@ -139,7 +146,7 @@ def is_false_positive(matched_licenses):
     match_is_license_tag_flags = (matched_license["matched_rule"]['is_license_tag']
                                   for matched_license in matched_licenses)
     return all((is_license_tag_flag and match_rule_length == 1)
-        for is_license_tag_flag, match_rule_length in zip(
+               for is_license_tag_flag, match_rule_length in zip(
         match_is_license_tag_flags, match_rule_length_values))
 
 
@@ -271,7 +278,27 @@ def determine_license_error_sub_case_rule_type(matched_licences, results_grouped
     raise NotImplementedError
 
 
-def analyze_region_for_license_scan_errors(matched_licences, results_grouped_by_location, is_license_text, is_legal):
+def initialize_results(number_of_matches, present_group_number):
+    """
+    For a group of matches in a file-region, generate a LicenseMatchErrorResult object for each of
+    those matches.
+
+    :param number_of_matches: int
+    :param present_group_number: int
+    :return license_detection_errors: list
+        List of n LicenseMatchErrorResult objects, where n -> number_of_matches.
+    """
+
+    license_detection_errors = []
+
+    for result in range(number_of_matches):
+        license_detection_error = LicenseMatchErrorResult(location_region_number=present_group_number+1)
+        license_detection_errors.append(license_detection_error)
+
+    return license_detection_errors
+
+
+def analyze_region_for_license_scan_errors(matched_licences, group_number, is_license_text, is_legal):
     """
     On a group of license matches (grouped on the basis of location in file), perform steps of
     analysis to determine if the license match is correct or if it has any issues. In case of issues,
@@ -279,11 +306,16 @@ def analyze_region_for_license_scan_errors(matched_licences, results_grouped_by_
 
     :param matched_licences: list
         A list of all matches in a file-region.
-    :param results_grouped_by_location:
-        List of LicenseMatchErrorResult objects, one for each match in the list of matched_licenses
+    :param group_number: int
+        The order of this file-region in file. Starts from 1.
     :param is_license_text: bool
     :param is_legal: bool
+    :returns results_grouped_by_location:
+        List of LicenseMatchErrorResult objects, one for each match in the list of matched_licenses
     """
+    results_grouped_by_location = initialize_results(number_of_matches=len(matched_licences),
+                                                     present_group_number=group_number)
+
     is_correct_license_detection = determine_license_scan_analysis_result_for_region(matched_licences,
                                                                                      results_grouped_by_location)
 
@@ -292,106 +324,63 @@ def analyze_region_for_license_scan_errors(matched_licences, results_grouped_by_
 
         if not USE_LICENSE_CASE_BERT_MODEL:
             determine_license_error_case_by_rule_type(matched_licences, results_grouped_by_location,
-                                                   is_license_text, is_legal)
+                                                      is_license_text, is_legal)
         else:
             determine_license_error_case_by_rule_type_using_bert(matched_licences, results_grouped_by_location)
 
         # TODO: Implement this function
         # determine_license_error_sub_case_rule_type(matched_licences, results_grouped_by_location)
 
+    return results_grouped_by_location
 
-def group_license_matches_by_location_and_analyze(matched_licences, is_license_text, is_legal):
+
+def group_matches(matches, lines_threshold=LINES_THRESHOLD):
     """
-    This function takes as input all the license matches in a file, and partitions them into
-    `file-regions` which are group of matches present in one location of a file, with some
-    overlap, or the difference between their end and start line numbers is less than a threshold.
-    Then for each of these `file-regions`, all of their matches are passed on to functions
-    analysing those matches together, for license detection errors. The output is the results
-    of the analysis, in the form of a LicenseMatchErrorResult object, for each match in a file.
+    Given a list of `matches` yield lists of grouped matches together where each
+    group is less than `lines_threshold` apart.
+    Each item in `matches` is a ScanCode matched license using the structure
+    that is found in the JSON scan results.
 
-    :param matched_licences: list
-        A list of all matches in a file.
+    :param matches: list
+        list of dicts, one for each license match in a file.
+    :param lines_threshold: int
+        The maximum space that can exist between two matches for them to be considered in the same
+        file-region.
+    :returns: list generator
+        A list of groups, where each group is a list of matches.
+    """
+    group = []
+    for match in matches:
+        if not group:
+            group.append(match)
+            continue
+        previous = group[-1]
+        is_in_group = (match["start_line"] <= previous["end_line"] + lines_threshold)
+        if is_in_group:
+            group.append(match)
+            continue
+        else:
+            yield group
+            group = [match]
+
+    yield group
+
+
+def analyze_matches(grouped_matches, is_license_text, is_legal):
+    """
+    Analyze a list of groups of matches, one group at a time, for license detection errors.
+
+    :param grouped_matches: list generator
+        A list of groups, where each group is a list of matches.
     :param is_license_text: bool
-        A Scancode `resource_attribute` for the file. True if more than 90% of a file has license
-        text.
     :param is_legal: bool
-        A Scancode `resource_attribute` for the file. True if the file has a common legal name.
-    :returns license_detection_errors: list
-        A list of LicenseMatchErrorResult objects, for each license match in the file, having the
-        analysis results on the file's license detections.
+    :returns: list generator
+        A list of LicenseMatchErrorResult objects one for each match in the file.
     """
-    # Initialize the list of `LicenseMatchErrorResult` objects as an empty list, this will be filled
-    # as we move through the matches (by initializing an object and appending to the list) in the file
-    license_detection_errors = []
-
-    # Number of Matches in matched_licences (i.e. in a file)
-    num_matches_file = len(matched_licences)
-
-    # Initialize an End counter for the present match in the main loop, by assigning them the
-    # end line value of the first match in the file
-    end_line_present_match = matched_licences[0]["end_line"]
-    
-    # Initialize indexes (i.e. the number of match in a file) for the current file-region
-    file_region_start_idx, file_region_end_idx = [0, 0]
-
-    # Initialize present group number counter to 1
-    present_group_number = 1
-
-    # Initialize the first ErrorResult object and initialize it to be in region 1
-    license_detection_error = LicenseMatchErrorResult(location_region_number=present_group_number)
-    license_detection_errors.append(license_detection_error)
-
-    # Loop through all the Matches in the file, starting from the second match
-    for match in range(1, num_matches_file):
-
-        # Get Start and End line for the current match
-        start_line = matched_licences[match]["start_line"]
-        end_line = matched_licences[match]["end_line"]
-
-        # If present match falls in the present group
-        if start_line <= (end_line_present_match + LINES_THRESHOLD):
-
-            # Mark this match as under the present group and extend group end Index
-            # Initialize an `LicenseMatchErrorResult` object for this match with the current group number
-            # And add it to the list of `LicenseMatchErrorResult` objects
-            license_detection_error = LicenseMatchErrorResult(location_region_number=present_group_number)
-            license_detection_errors.append(license_detection_error)
-            file_region_end_idx = match
-
-            # If `end_line` outside current line Boundaries, then Update Boundaries
-            if end_line > end_line_present_match:
-                end_line_present_match = end_line
-
-        # If present match doesn't fall in the present group
-        # i.e. the start_line is outside threshold
-        elif start_line > (end_line_present_match + LINES_THRESHOLD):
-
-            # Increase group number, and mark this match as in a new group
-            present_group_number += 1
-            license_detection_error = LicenseMatchErrorResult(location_region_number=present_group_number)
-            license_detection_errors.append(license_detection_error)
-
-            # Analyze all the matches in the file-region just preceding this match for license scan errors
-            analyze_region_for_license_scan_errors(
-                matched_licences=matched_licences[file_region_start_idx:file_region_end_idx+1],
-                results_grouped_by_location=license_detection_errors[file_region_start_idx:file_region_end_idx+1],
-                is_license_text=is_license_text,
-                is_legal=is_legal)
-
-            # Update Group Index to point to Current Group
-            file_region_start_idx, file_region_end_idx = [match, match]
-
-            # Update Line Boundaries
-            end_line_present_match = end_line
-    
-    # Analyze all the matches in the last file-region for license scan errors
-    analyze_region_for_license_scan_errors(
-        matched_licences=matched_licences[file_region_start_idx:file_region_end_idx+1],
-        results_grouped_by_location=license_detection_errors[file_region_start_idx:file_region_end_idx+1],
-        is_license_text=is_license_text,
-        is_legal=is_legal)
-
-    return license_detection_errors
+    for group_number, group in enumerate(grouped_matches):
+        for analysis in analyze_region_for_license_scan_errors(matched_licences=group, group_number=group_number,
+                                                               is_license_text=is_license_text, is_legal=is_legal):
+            yield analysis
 
 
 def convert_list_of_result_class_to_list_of_dicts(list_results):
@@ -415,15 +404,33 @@ def convert_list_of_result_class_to_list_of_dicts(list_results):
 
 def analyze_license_matches(matched_licences, is_license_text=False, is_legal=False):
     """
-    Return a list of license detection errors.
+    This function takes as input all the license matches in a file, and returns the results
+    of the license detection error analysis, for each match in a file.
+
+    :param matched_licences: list
+        A list of all matches in a file.
+    :param is_license_text: bool
+        A Scancode `resource_attribute` for the file. True if more than 90% of a file has license
+        text.
+    :param is_legal: bool
+        A Scancode `resource_attribute` for the file. True if the file has a common legal name.
+    :returns analysis_results: list
+        A list of dicts, with keys-values corresponding to their LicenseMatchErrorResult objects, for each
+        license match in the file, having the analysis results on the file's license detections.
     """
-    # In case of the resource having no license detection, return a empty list
     if not matched_licences:
         return []
 
-    results_grouped_by_location = group_license_matches_by_location_and_analyze(
-        matched_licences, is_license_text, is_legal)
+    # Partitions the license matches into `file-regions` which are group of matches present in one location of a file,
+    # with some overlap, or the difference between their end and start line numbers is less than a threshold.
+    grouped_matches = group_matches(matched_licences)
 
+    # Then for each of these `file-regions`, all of their matches are passed on to functions
+    # analysing those matches together, for license detection errors
+    results_grouped_by_location = analyze_matches(grouped_matches, is_license_text, is_legal)
+
+    # Convert the list of LicenseMatchErrorResult objects to list of dicts, in the format it has to be added to
+    # each resource object in scancode results
     analysis_results = convert_list_of_result_class_to_list_of_dicts(results_grouped_by_location)
 
     return analysis_results

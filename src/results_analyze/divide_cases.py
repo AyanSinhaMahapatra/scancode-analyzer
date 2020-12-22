@@ -22,22 +22,16 @@
 #  ScanCode is a free software code scanning tool from nexB Inc. and others.
 #  Visit https://github.com/nexB/scancode-toolkit/ for support and download.
 
+from results_analyze.analyzer import IMPERFECT_MATCH_COVERAGE_THR
+from results_analyze.analyzer import LINES_THRESHOLD
+from results_analyze.analyzer import NEAR_PERFECT_MATCH_COVERAGE_THR
+
 import pandas as pd
 import numpy as np
 
 # Raise Error in case of Chained Assignment as that has unpredictable consequences
 # Docs - https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
 pd.options.mode.chained_assignment = 'raise'  # default='warn'
-
-# All values of match_coverage less than this value are taken as `near-perfect-match-coverage` cases
-NEAR_PERFECT_MATCH_COVERAGE_THR = 100
-
-# Values of match_coverage less than this are taken as `imperfect-match-coverage` cases
-IMPERFECT_MATCH_COVERAGE_THR = 95
-
-# How many Lines in between has to be present for two matches being of a different group
-# (i.e. and therefore, different rule)
-LINES_THRESHOLD = 4
 
 # Boolean Column Fields which has License Class Information
 license_class_bools = ['is_license_text_lic', 'is_license_notice', 'is_license_tag',

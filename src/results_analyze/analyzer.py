@@ -159,7 +159,6 @@ def set_license_scan_analysis_result(license_scan_analysis_result, license_match
         Has one of the 5 possible values of LicenseMatchErrorResult.license_scan_analysis_result
     :param license_match_error_results: list
         List of LicenseMatchErrorResult objects, for a file-region.
-    :return:
     """
     for license_match_error_result in license_match_error_results:
         license_match_error_result.license_scan_analysis_result = license_scan_analysis_result
@@ -292,7 +291,7 @@ def initialize_results(number_of_matches, present_group_number):
     license_detection_errors = []
 
     for result in range(number_of_matches):
-        license_detection_error = LicenseMatchErrorResult(location_region_number=present_group_number+1)
+        license_detection_error = LicenseMatchErrorResult(location_region_number=present_group_number)
         license_detection_errors.append(license_detection_error)
 
     return license_detection_errors
@@ -377,35 +376,19 @@ def analyze_matches(grouped_matches, is_license_text, is_legal):
     :returns: list generator
         A list of LicenseMatchErrorResult objects one for each match in the file.
     """
-    for group_number, group in enumerate(grouped_matches):
-        for analysis in analyze_region_for_license_scan_errors(matched_licences=group, group_number=group_number,
-                                                               is_license_text=is_license_text, is_legal=is_legal):
+    for group_number, group in enumerate(grouped_matches, 1):
+        for analysis in analyze_region_for_license_scan_errors(
+            matched_licences=group,
+            group_number=group_number,
+            is_license_text=is_license_text,
+            is_legal=is_legal,
+        ):
             yield analysis
-
-
-def convert_list_of_result_class_to_list_of_dicts(list_results):
-    """
-    Converts a list of `LicenseMatchErrorResult` objects to a list of dictionaries, to be added as a
-    scancode `resource_attribute`.
-
-    :param list_results: list
-        A list of `LicenseMatchErrorResult` objects
-    :return license_match_error_result:
-        A list of dictionaries having the result of License Scan Analysis
-    """
-    license_match_error_result = []
-
-    # Convert each `LicenseMatchErrorResult` object to a dictionary and add to the list of dicts
-    for result in list_results:
-        license_match_error_result.append(result.to_dict())
-
-    return license_match_error_result
 
 
 def analyze_license_matches(matched_licences, is_license_text=False, is_legal=False):
     """
-    This function takes as input all the license matches in a file, and returns the results
-    of the license detection error analysis, for each match in a file.
+    Returns the results of the license detection error analysis, for each  all the license matches in a file.
 
     :param matched_licences: list
         A list of all matches in a file.
@@ -415,22 +398,13 @@ def analyze_license_matches(matched_licences, is_license_text=False, is_legal=Fa
     :param is_legal: bool
         A Scancode `resource_attribute` for the file. True if the file has a common legal name.
     :returns analysis_results: list
-        A list of dicts, with keys-values corresponding to their LicenseMatchErrorResult objects, for each
+        A list of dicts, with keys corresponding to their LicenseMatchErrorResult objects, for each
         license match in the file, having the analysis results on the file's license detections.
     """
     if not matched_licences:
         return []
 
-    # Partitions the license matches into `file-regions` which are group of matches present in one location of a file,
-    # with some overlap, or the difference between their end and start line numbers is less than a threshold.
     grouped_matches = group_matches(matched_licences)
-
-    # Then for each of these `file-regions`, all of their matches are passed on to functions
-    # analysing those matches together, for license detection errors
-    results_grouped_by_location = analyze_matches(grouped_matches, is_license_text, is_legal)
-
-    # Convert the list of LicenseMatchErrorResult objects to list of dicts, in the format it has to be added to
-    # each resource object in scancode results
-    analysis_results = convert_list_of_result_class_to_list_of_dicts(results_grouped_by_location)
-
+    analysis_results = analyze_matches(grouped_matches, is_license_text, is_legal)
+    analysis_results = [ar.to_dict() for ar in analysis_results]
     return analysis_results

@@ -32,6 +32,10 @@ from plugincode.post_scan import post_scan_impl
 from results_analyze import analyzer
 
 
+class NotAnalyzableResourceException(Exception):
+    pass
+
+
 @post_scan_impl
 class ResultsAnalyzer(PostScanPlugin):
     """
@@ -58,33 +62,68 @@ class ResultsAnalyzer(PostScanPlugin):
         return analyze_results
 
     def process_codebase(self, codebase, **kwargs):
-
         for resource in codebase.walk():
-
             if not resource.is_file:
                 continue
 
-            if not getattr(resource, 'licenses'):
-                continue
+            try:
+                # Will fail if missing attributes
+                if validate_resource(resource):
+                    resource.license_detection_errors = analyze_resource(resource)
+                    codebase.save_resource(resource)
+            except NotAnalyzableResourceException as e:
+                msg = str(e)
+                codebase.errors.append(msg)
+                break
 
-            resource.license_detection_errors = analyze_resource(resource)
-            codebase.save_resource(resource)
+
+def validate_resource(resource):
+    """
+    Return True if resource has all the data required for the analysis.
+    Return False if the resource does not have detected licenses.
+    Raise an exception if any of the essential attributes are missing from the resource.
+    """
+    has_licenses = hasattr(resource, 'licenses')
+    licenses = getattr(resource, 'licenses', [])
+    if has_licenses and not licenses:
+        return False
+
+    has_license_text = hasattr(resource, 'is_license_text')
+    has_legal = hasattr(resource, 'is_legal')
+    has_matched_text = all("matched_text" in license_match for license_match in licenses)
+
+    if has_licenses and has_license_text and has_matched_text and has_legal:
+        return True
+
+    raise NotAnalyzableResourceException(
+        f"{resource.path} cannot be analyzed for license scan errors, "
+        f"required attributes are: is_license_text, is_legal, license.matched_text. "
+        f"Rerun scan with these options: --license --license-text --is-license-text --classify --info"
+    )
 
 
 def analyze_resource(resource):
+    """
+    Analyzes license scan attributes for a resource and classifies license scan issues.
 
-    licenses = getattr(resource, 'licenses')
+    :param resource: object
+        An object of the commoncode.Resource class, having all resource level scan-data.
+    :return: dict
+        Resource attribute containing license scan analysis result for the resource.
+    """
+    has_attributes_for_analysis = validate_resource(resource)
 
-    if not licenses:
+    if not has_attributes_for_analysis:
         return []
 
+    licenses = getattr(resource, 'licenses')
     is_license_text = getattr(resource, 'is_license_text', False)
     is_legal = getattr(resource, 'is_legal', False)
 
     matched_licences = licenses
 
     return analyzer.analyze_license_matches(
+        matched_licences=matched_licences,
         is_license_text=is_license_text,
         is_legal=is_legal,
-        matched_licences=matched_licences,
     )

@@ -2,38 +2,13 @@
   "headers": [
     {
       "tool_name": "scancode-toolkit",
-      "tool_version": "3.2.3",
-      "options": {
-        "input": [
-          "scancode-results-analyzer/tests/data/analyzer-plugins/scan-files/"
-        ],
-        "--classify": true,
-        "--info": true,
-        "--is-license-text": true,
-        "--json-pp": "scancode-results-analyzer/tests/data/analyzer-plugins/sample_files_result_2.json",
-        "--license": true,
-        "--license-text": true
-      },
-      "notice": "Generated with ScanCode and provided on an \"AS IS\" BASIS, WITHOUT WARRANTIES\nOR CONDITIONS OF ANY KIND, either express or implied. No content created from\nScanCode should be considered or used as legal advice. Consult an Attorney\nfor any legal advice.\nScanCode is a free software code scanning tool from nexB Inc. and others.\nVisit https://github.com/nexB/scancode-toolkit/ for support and download.",
-      "start_timestamp": null,
-      "end_timestamp": null,
-      "duration": null,
-      "message": null,
-      "errors": [],
-      "extra_data": {
-        "files_count": 4
-      }
-    },
-    {
-      "tool_name": "scancode-toolkit",
-      "tool_version": "3.2.3",
       "options": {
         "input": "<path>",
         "--analyze-results": true,
-        "--from-json": [
-          true
-        ],
-        "--json-pp": "<file>"
+        "--json": "<file>",
+        "--license": true,
+        "--license-text": true,
+        "--strip-root": true
       },
       "notice": "Generated with ScanCode and provided on an \"AS IS\" BASIS, WITHOUT WARRANTIES\nOR CONDITIONS OF ANY KIND, either express or implied. No content created from\nScanCode should be considered or used as legal advice. Consult an Attorney\nfor any legal advice.\nScanCode is a free software code scanning tool from nexB Inc. and others.\nVisit https://github.com/nexB/scancode-toolkit/ for support and download.",
       "message": null,
@@ -45,60 +20,8 @@
   ],
   "files": [
     {
-      "path": "scan-files",
-      "type": "directory",
-      "name": "scan-files",
-      "base_name": "scan-files",
-      "extension": "",
-      "size": 0,
-      "date": null,
-      "sha1": null,
-      "md5": null,
-      "sha256": null,
-      "mime_type": null,
-      "file_type": null,
-      "programming_language": null,
-      "is_binary": false,
-      "is_text": false,
-      "is_archive": false,
-      "is_media": false,
-      "is_source": false,
-      "is_script": false,
-      "licenses": [],
-      "license_expressions": [],
-      "percentage_of_license_text": 0,
-      "is_legal": false,
-      "is_manifest": false,
-      "is_readme": false,
-      "is_top_level": true,
-      "is_key_file": false,
-      "is_license_text": false,
-      "license_detection_errors": [],
-      "files_count": 4,
-      "dirs_count": 0,
-      "size_count": 78046,
-      "scan_errors": []
-    },
-    {
-      "path": "scan-files/1912-libtool-2.2.10-argz.c",
+      "path": "1912-libtool-2.2.10-argz.c",
       "type": "file",
-      "name": "1912-libtool-2.2.10-argz.c",
-      "base_name": "1912-libtool-2.2.10-argz",
-      "extension": ".c",
-      "size": 5903,
-      "date": "2020-11-30",
-      "sha1": "0463f3f27739f3fecb1e7c51130541fb213d7d29",
-      "md5": "9bc35c1c3c4ada358e2c0f1afeb4b8b8",
-      "sha256": "945ad99eb763a61cb3073c958d41f7d141427a6d4ab5143c8acbd1cb7db19329",
-      "mime_type": "text/x-c",
-      "file_type": "C source, ASCII text",
-      "programming_language": "C",
-      "is_binary": false,
-      "is_text": true,
-      "is_archive": false,
-      "is_media": false,
-      "is_source": true,
-      "is_script": false,
       "licenses": [
         {
           "key": "lgpl-2.0-plus",
@@ -173,12 +96,6 @@
         "lgpl-2.0-plus WITH libtool-exception-2.0"
       ],
       "percentage_of_license_text": 20.65,
-      "is_legal": false,
-      "is_manifest": false,
-      "is_readme": false,
-      "is_top_level": true,
-      "is_key_file": false,
-      "is_license_text": false,
       "license_detection_errors": [
         {
           "location_region_number": 1,
@@ -193,31 +110,11 @@
           "region_license_error_sub_case": null
         }
       ],
-      "files_count": 0,
-      "dirs_count": 0,
-      "size_count": 0,
       "scan_errors": []
     },
     {
-      "path": "scan-files/cmCommandArgumentParser.cxx",
+      "path": "cmCommandArgumentParser.cxx",
       "type": "file",
-      "name": "cmCommandArgumentParser.cxx",
-      "base_name": "cmCommandArgumentParser",
-      "extension": ".cxx",
-      "size": 53318,
-      "date": "2020-11-30",
-      "sha1": "a5a7ba78b9972bfddc0919e510b9abad879d6597",
-      "md5": "7d2947d3b87e369b58a4189705027dfc",
-      "sha256": "93de7c521264240db0a98ad1338b7a4d7a5d3831a51df5f5739e3e66aaf71595",
-      "mime_type": "text/x-c",
-      "file_type": "C source, ASCII text",
-      "programming_language": "C++",
-      "is_binary": false,
-      "is_text": true,
-      "is_archive": false,
-      "is_media": false,
-      "is_source": true,
-      "is_script": false,
       "licenses": [
         {
           "key": "bsd-new",
@@ -363,12 +260,6 @@
         "bsd-new"
       ],
       "percentage_of_license_text": 5.51,
-      "is_legal": false,
-      "is_manifest": false,
-      "is_readme": false,
-      "is_top_level": true,
-      "is_key_file": false,
-      "is_license_text": false,
       "license_detection_errors": [
         {
           "location_region_number": 1,
@@ -395,31 +286,11 @@
           "region_license_error_sub_case": null
         }
       ],
-      "files_count": 0,
-      "dirs_count": 0,
-      "size_count": 0,
       "scan_errors": []
     },
     {
-      "path": "scan-files/genshell.c",
+      "path": "genshell.c",
       "type": "file",
-      "name": "genshell.c",
-      "base_name": "genshell",
-      "extension": ".c",
-      "size": 12726,
-      "date": "2020-11-30",
-      "sha1": "6e90946dc8b6f8a580b168a32818bf3c896e7946",
-      "md5": "917f0c4669c39e5785d65ec66ee7f13a",
-      "sha256": "5a3d70ed83b2c13136a200bd56ca742fc30722fd7821e223b9536d0d26813c35",
-      "mime_type": "text/x-c",
-      "file_type": "C source, ASCII text",
-      "programming_language": "C",
-      "is_binary": false,
-      "is_text": true,
-      "is_archive": false,
-      "is_media": false,
-      "is_source": true,
-      "is_script": false,
       "licenses": [
         {
           "key": "gpl-3.0-plus",
@@ -493,12 +364,6 @@
         "gpl-3.0-plus"
       ],
       "percentage_of_license_text": 17.99,
-      "is_legal": false,
-      "is_manifest": false,
-      "is_readme": false,
-      "is_top_level": true,
-      "is_key_file": false,
-      "is_license_text": false,
       "license_detection_errors": [
         {
           "location_region_number": 1,
@@ -513,31 +378,11 @@
           "region_license_error_sub_case": null
         }
       ],
-      "files_count": 0,
-      "dirs_count": 0,
-      "size_count": 0,
       "scan_errors": []
     },
     {
-      "path": "scan-files/genshell.h",
+      "path": "genshell.h",
       "type": "file",
-      "name": "genshell.h",
-      "base_name": "genshell",
-      "extension": ".h",
-      "size": 6099,
-      "date": "2020-11-30",
-      "sha1": "b276e2f2340b5f26f9b221955a7f7372b90a8ed6",
-      "md5": "fd83b22c2bd42578333334064a1d8f11",
-      "sha256": "75af01d22598030258ce8316412e04679fd99acc91434ee571d71cf6b176e3cc",
-      "mime_type": "text/x-c",
-      "file_type": "C source, ASCII text",
-      "programming_language": "C",
-      "is_binary": false,
-      "is_text": true,
-      "is_archive": false,
-      "is_media": false,
-      "is_source": true,
-      "is_script": false,
       "licenses": [
         {
           "key": "gpl-3.0-plus",
@@ -577,12 +422,6 @@
         "gpl-3.0-plus"
       ],
       "percentage_of_license_text": 22.29,
-      "is_legal": false,
-      "is_manifest": false,
-      "is_readme": false,
-      "is_top_level": true,
-      "is_key_file": false,
-      "is_license_text": false,
       "license_detection_errors": [
         {
           "location_region_number": 1,
@@ -591,9 +430,6 @@
           "region_license_error_sub_case": null
         }
       ],
-      "files_count": 0,
-      "dirs_count": 0,
-      "size_count": 0,
       "scan_errors": []
     }
   ]

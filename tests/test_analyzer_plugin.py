@@ -42,7 +42,8 @@ class AnalyzerPlugin(FileBasedTesting):
     def test_analyze_results_plugin(self):
         test_dir = self.get_test_loc('scan-files/')
         result_file = self.get_temp_file('json')
-        args = ['--license', '--license-text', '--strip-root', test_dir, '--json', result_file, '--analyze-results']
+        args = ['--license', '--info', '--license-text', '--is-license-text', '--classify',
+                test_dir, '--json-pp', result_file, '--analyze-results']
         run_scan_click(args)
         check_json_scan(self.get_test_loc('results_analyzer_expected.json'), result_file)
 
@@ -50,7 +51,7 @@ class AnalyzerPlugin(FileBasedTesting):
 
         input_json = self.get_test_loc('sample_files_result.json')
         result_file = self.get_temp_file('json')
-        args = ['--from-json', input_json, '--json', result_file, '--analyze-results']
+        args = ['--from-json', input_json, '--json-pp', result_file, '--analyze-results']
         run_scan_click(args)
         check_json_scan(self.get_test_loc('results_analyzer_from_sample_json_expected.json'), result_file)
 
@@ -132,12 +133,12 @@ def create_mock_resource(data):
         bases=(Resource,))
 
     resource = resource_class(
-        name= 'name',
-        location = '/foo/bar',
-        path = 'some/path/name',
-        rid = 24,
-        pid = 23,
-        is_file = True,
+        name='name',
+        location='/foo/bar',
+        path='some/path/name',
+        rid=24,
+        pid=23,
+        is_file=True,
         **data
     )
 

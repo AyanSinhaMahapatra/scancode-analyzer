@@ -277,7 +277,7 @@ class TestAnalyzer(FileBasedTesting):
 
     def test_analyzer_initialize_results(self):
 
-        results = analyzer.initialize_results(number_of_matches=7, present_group_number=0)
+        results = analyzer.initialize_results(number_of_matches=7, present_group_number=1)
 
         for result in results:
             assert result.license_scan_analysis_result is None
@@ -324,14 +324,6 @@ class TestAnalyzer(FileBasedTesting):
         grouped_matches = analyzer.group_matches(ungrouped_matches, analyzer.LINES_THRESHOLD)
 
         assert len(list(grouped_matches)) == 2
-
-    def test_analyzer_convert_list_of_result_class_to_list_of_dicts(self):
-        results_group = analyzer.initialize_results(number_of_matches=5, present_group_number=0)
-        result_dicts = analyzer.convert_list_of_result_class_to_list_of_dicts(results_group)
-
-        for result in result_dicts:
-            assert type(result) == dict
-            assert result["location_region_number"] == 1
 
 
 class TestLicenseMatchErrorResult(FileBasedTesting):

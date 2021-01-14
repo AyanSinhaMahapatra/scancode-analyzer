@@ -37,25 +37,48 @@ from results_analyze.analyzer_plugin import NotAnalyzableResourceException
 
 
 class AnalyzerPlugin(FileBasedTesting):
-    test_data_dir = os.path.join(os.path.dirname(__file__), 'data/analyzer-plugins/')
+    test_data_dir = os.path.join(os.path.dirname(__file__), "data/analyzer-plugins/")
 
     def test_analyze_results_plugin(self):
-        test_dir = self.get_test_loc('scan-files/')
-        result_file = self.get_temp_file('json')
-        args = ['--license', '--info', '--license-text', '--is-license-text', '--classify',
-                test_dir, '--json-pp', result_file, '--analyze-results']
+        test_dir = self.get_test_loc("scan-files/")
+        result_file = self.get_temp_file("json")
+        args = [
+            "--license",
+            "--info",
+            "--license-text",
+            "--is-license-text",
+            "--classify",
+            test_dir,
+            "--json-pp",
+            result_file,
+            "--analyze-license-results",
+        ]
         run_scan_click(args)
-        check_json_scan(self.get_test_loc('results_analyzer_expected.json'), result_file)
+        check_json_scan(
+            self.get_test_loc("results_analyzer_expected.json"),
+            result_file,
+            remove_file_date=True,
+        )
 
     def test_analyze_results_plugin_load_from_json_analyze(self):
 
-        input_json = self.get_test_loc('sample_files_result.json')
-        result_file = self.get_temp_file('json')
-        args = ['--from-json', input_json, '--json-pp', result_file, '--analyze-results']
+        input_json = self.get_test_loc("sample_files_result.json")
+        result_file = self.get_temp_file("json")
+        args = [
+            "--from-json",
+            input_json,
+            "--json-pp",
+            result_file,
+            "--analyze-license-results",
+        ]
         run_scan_click(args)
-        check_json_scan(self.get_test_loc('results_analyzer_from_sample_json_expected.json'), result_file)
+        check_json_scan(
+            self.get_test_loc("results_analyzer_from_sample_json_expected.json"),
+            result_file,
+        )
 
-    def test_validate_resource_returns_true_if_all_attributes_are_present(self):
+    @staticmethod
+    def test_validate_resource_returns_true_if_all_attributes_are_present():
         data = {
             "licenses": [{"matched_text": "MIT License"}],
             "is_license_text": True,
@@ -64,7 +87,8 @@ class AnalyzerPlugin(FileBasedTesting):
         test_resource = create_mock_resource(data)
         assert validate_resource(test_resource)
 
-    def test_validate_resource_returns_false_if_no_licenses_are_matched(self):
+    @staticmethod
+    def test_validate_resource_returns_false_if_no_licenses_are_matched():
         data = {
             "licenses": [],
             "is_license_text": False,
@@ -127,15 +151,13 @@ def create_mock_resource(data):
     resource_attributes = build_attributes_defs(data)
 
     resource_class = attr.make_class(
-        name='MockResource',
-        attrs=resource_attributes,
-        slots=True,
-        bases=(Resource,))
+        name="MockResource", attrs=resource_attributes, slots=True, bases=(Resource,)
+    )
 
     resource = resource_class(
-        name='name',
-        location='/foo/bar',
-        path='some/path/name',
+        name="name",
+        location="/foo/bar",
+        path="some/path/name",
         rid=24,
         pid=23,
         is_file=True,

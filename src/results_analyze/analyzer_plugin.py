@@ -43,23 +43,27 @@ class ResultsAnalyzer(PostScanPlugin):
     type information for each match errors.
     """
 
-    resource_attributes = {'license_detection_errors': attr.ib(default=attr.Factory(list))}
+    resource_attributes = {
+        "license_detection_analysis": attr.ib(default=attr.Factory(list))
+    }
 
     sort_order = 80
 
     options = [
         PluggableCommandLineOption(
-            ('--analyze-results',),
+            ("--analyze-license-results",),
             is_flag=True,
             default=False,
-            help='Add the "license_detection_errors" list which has the'
-                 'license detection error type information for each match errors',
+            help='Performs a license detection analysis to detect different kinds of '
+                 'potential license detection issues in scancode. '
+                 'Required scancode CLI options to run this analysis are:'
+                 '--license --license-text --is-license-text --classify --info',
             help_group=POST_SCAN_GROUP,
         ),
     ]
 
-    def is_enabled(self, analyze_results, **kwargs):
-        return analyze_results
+    def is_enabled(self, analyze_license_results, **kwargs):
+        return analyze_license_results
 
     def process_codebase(self, codebase, **kwargs):
         for resource in codebase.walk():
@@ -68,13 +72,15 @@ class ResultsAnalyzer(PostScanPlugin):
 
             try:
                 # Will fail if missing attributes
-                if validate_resource(resource):
-                    resource.license_detection_errors = analyze_resource(resource)
-                    codebase.save_resource(resource)
+                is_resource_validated = validate_resource(resource)
             except NotAnalyzableResourceException as e:
                 msg = str(e)
                 codebase.errors.append(msg)
                 break
+
+            if is_resource_validated:
+                resource.license_detection_analysis = analyze_resource(resource)
+                codebase.save_resource(resource)
 
 
 def validate_resource(resource):
@@ -83,14 +89,16 @@ def validate_resource(resource):
     Return False if the resource does not have detected licenses.
     Raise an exception if any of the essential attributes are missing from the resource.
     """
-    has_licenses = hasattr(resource, 'licenses')
-    licenses = getattr(resource, 'licenses', [])
+    has_licenses = hasattr(resource, "licenses")
+    licenses = getattr(resource, "licenses", [])
     if has_licenses and not licenses:
         return False
 
-    has_license_text = hasattr(resource, 'is_license_text')
-    has_legal = hasattr(resource, 'is_legal')
-    has_matched_text = all("matched_text" in license_match for license_match in licenses)
+    has_license_text = hasattr(resource, "is_license_text")
+    has_legal = hasattr(resource, "is_legal")
+    has_matched_text = all(
+        "matched_text" in license_match for license_match in licenses
+    )
 
     if has_licenses and has_license_text and has_matched_text and has_legal:
         return True
@@ -98,7 +106,8 @@ def validate_resource(resource):
     raise NotAnalyzableResourceException(
         f"{resource.path} cannot be analyzed for license scan errors, "
         f"required attributes are: is_license_text, is_legal, license.matched_text. "
-        f"Rerun scan with these options: --license --license-text --is-license-text --classify --info"
+        f"Rerun scan with these options: "
+        f"--license --license-text --is-license-text --classify --info"
     )
 
 
@@ -116,14 +125,12 @@ def analyze_resource(resource):
     if not has_attributes_for_analysis:
         return []
 
-    licenses = getattr(resource, 'licenses')
-    is_license_text = getattr(resource, 'is_license_text', False)
-    is_legal = getattr(resource, 'is_legal', False)
-
-    matched_licences = licenses
+    licenses = getattr(resource, "licenses")
+    is_license_text = getattr(resource, "is_license_text", False)
+    is_legal = getattr(resource, "is_legal", False)
 
     return analyzer.analyze_license_matches(
-        matched_licences=matched_licences,
+        matched_licences=licenses,
         is_license_text=is_license_text,
         is_legal=is_legal,
     )

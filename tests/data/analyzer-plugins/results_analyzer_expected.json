@@ -157,9 +157,9 @@
       "is_key_file": false,
       "license_detection_analysis": [
         {
-          "start_line_region": 9,
-          "end_line_region": 28,
-          "license_matches": [
+          "start_line": 9,
+          "end_line": 28,
+          "licenses": [
             {
               "key": "lgpl-2.0-plus",
               "score": 97.8,
@@ -229,16 +229,82 @@
               "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
             }
           ],
-          "license_scan_analysis_result": "extra-words",
-          "license_scan_analysis_result_description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule",
-          "region_license_error_case": "notice",
-          "region_license_error_case_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
-          "license_match_post_analysis": {
-            "key": "lgpl-2.0-plus",
-            "rule_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
-          }
+          "analysis": "extra-words",
+          "analysis_description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule",
+          "error_rule_type": "is_license_notice",
+          "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
+          "error_rule_sub_type": "notice-and-or-except-notice",
+          "error_rule_sub_type_description": "a notice which notifies multiple licenses, as exceptions, as a choice between, or as together",
+          "license_match_post_analysis": [
+            {
+              "key": "lgpl-2.0-plus",
+              "score": 97.8,
+              "name": "GNU Library General Public License 2.0 or later",
+              "short_name": "LGPL 2.0 or later",
+              "category": "Copyleft Limited",
+              "is_exception": false,
+              "owner": "Free Software Foundation (FSF)",
+              "homepage_url": "http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html",
+              "text_url": "http://www.gnu.org/licenses/old-licenses/lgpl-2.0-standalone.html",
+              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:lgpl-2.0-plus",
+              "spdx_license_key": "LGPL-2.0-or-later",
+              "spdx_url": "https://spdx.org/licenses/LGPL-2.0-or-later",
+              "start_line": 9,
+              "end_line": 28,
+              "matched_rule": {
+                "identifier": "lgpl-2.0-plus_with_libtool-exception-2.0_1.RULE",
+                "license_expression": "lgpl-2.0-plus WITH libtool-exception-2.0",
+                "licenses": [
+                  "lgpl-2.0-plus",
+                  "libtool-exception-2.0"
+                ],
+                "is_license_text": false,
+                "is_license_notice": true,
+                "is_license_reference": false,
+                "is_license_tag": false,
+                "matcher": "3-seq",
+                "rule_length": 178,
+                "matched_length": 178,
+                "match_coverage": 100.0,
+                "rule_relevance": 100
+              },
+              "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
+            },
+            {
+              "key": "libtool-exception-2.0",
+              "score": 97.8,
+              "name": "GNU Libtool exception to GPL 2.0",
+              "short_name": "GNU Libtool exception to GPL 2.0",
+              "category": "Copyleft Limited",
+              "is_exception": true,
+              "owner": "Free Software Foundation (FSF)",
+              "homepage_url": "http://git.savannah.gnu.org/cgit/libtool.git/tree/m4/libtool.m4",
+              "text_url": "",
+              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:libtool-exception-2.0",
+              "spdx_license_key": "Libtool-exception",
+              "spdx_url": "https://spdx.org/licenses/Libtool-exception",
+              "start_line": 9,
+              "end_line": 28,
+              "matched_rule": {
+                "identifier": "lgpl-2.0-plus_with_libtool-exception-2.0_1.RULE",
+                "license_expression": "lgpl-2.0-plus WITH libtool-exception-2.0",
+                "licenses": [
+                  "lgpl-2.0-plus",
+                  "libtool-exception-2.0"
+                ],
+                "is_license_text": false,
+                "is_license_notice": true,
+                "is_license_reference": false,
+                "is_license_tag": false,
+                "matcher": "3-seq",
+                "rule_length": 178,
+                "matched_length": 178,
+                "match_coverage": 100.0,
+                "rule_relevance": 100
+              },
+              "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
+            }
+          ]
         }
       ],
       "is_license_text": false,
@@ -419,9 +485,9 @@
       "is_key_file": false,
       "license_detection_analysis": [
         {
-          "start_line_region": 5,
-          "end_line_region": 45,
-          "license_matches": [
+          "start_line": 5,
+          "end_line": 45,
+          "licenses": [
             {
               "key": "bsd-new",
               "score": 100.0,
@@ -528,18 +594,18 @@
               "matched_text": "  Distributed under the OSI-approved BSD License (the \"License\");\n  see accompanying file Copyright.txt for details.\n\n  This software is distributed WITHOUT ANY WARRANTY; without even the\n  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n  See the License for more information.\n============================================================================*/\n/* A Bison parser, made by GNU Bison 2.3.  */\n\n/* Skeleton implementation for Bison's Yacc-like parsers in C\n\n   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006\n   Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU General Public License as published by\n   the Free Software Foundation; either version 2, or (at your option)\n   any later version.\n\n   This program is distributed in the hope that it will be useful,\n   but WITHOUT ANY WARRANTY; without even the implied warranty of\n   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n   GNU General Public License for more details.\n\n   You should have received a copy of the GNU General Public License\n   along with this program; if not, write to the Free Software\n   Foundation, Inc., 51 Franklin Street, Fifth Floor,\n   Boston, MA 02110-1301, USA.  */\n\n/* As a special exception, you may create a larger work that contains\n   part or all of the Bison parser skeleton and distribute that work\n   under terms of your choice, so long as that work isn't itself a\n   parser generator using the skeleton or a modified version thereof\n   as a parser skeleton.  Alternatively, if you modify or redistribute\n   the parser skeleton itself, you may (at your option) remove this\n   special exception, which will cause the skeleton and the resulting\n   Bison output files to be licensed under the GNU General Public\n   License without this special exception.\n\n   This special exception was added by the Free Software Foundation in\n   version 2.2 of Bison.  */"
             }
           ],
-          "license_scan_analysis_result": "correct-license-detection",
-          "license_scan_analysis_result_description": "The license detection is correct",
-          "region_license_error_case": null,
-          "region_license_error_case_description": null,
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "correct-license-detection",
+          "analysis_description": "The license detection is correct",
+          "error_rule_type": null,
+          "error_rule_type_description": null,
+          "error_rule_sub_type": null,
+          "error_rule_sub_type_description": null,
           "license_match_post_analysis": null
         },
         {
-          "start_line_region": 126,
-          "end_line_region": 131,
-          "license_matches": [
+          "start_line": 126,
+          "end_line": 131,
+          "licenses": [
             {
               "key": "bsd-new",
               "score": 100.0,
@@ -574,12 +640,12 @@
               "matched_text": "  Distributed under the OSI-approved BSD License (the \"License\");\n  see accompanying file Copyright.txt for details.\n\n  This software is distributed WITHOUT ANY WARRANTY; without even the\n  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n  See the License for more information."
             }
           ],
-          "license_scan_analysis_result": "correct-license-detection",
-          "license_scan_analysis_result_description": "The license detection is correct",
-          "region_license_error_case": null,
-          "region_license_error_case_description": null,
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "correct-license-detection",
+          "analysis_description": "The license detection is correct",
+          "error_rule_type": null,
+          "error_rule_type_description": null,
+          "error_rule_sub_type": null,
+          "error_rule_sub_type_description": null,
           "license_match_post_analysis": null
         }
       ],
@@ -689,9 +755,9 @@
       "is_key_file": false,
       "license_detection_analysis": [
         {
-          "start_line_region": 11,
-          "end_line_region": 34,
-          "license_matches": [
+          "start_line": 11,
+          "end_line": 34,
+          "licenses": [
             {
               "key": "gpl-3.0-plus",
               "score": 95.7,
@@ -726,21 +792,21 @@
               "matched_text": " *  AutoOpts is a copyrighted work.  This source file is not encumbered\n *  by AutoOpts licensing, but is provided under the licensing terms chosen\n *  by the genshellopt author or copyright holder.  AutoOpts is\n *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
             }
           ],
-          "license_scan_analysis_result": "near-perfect-match-coverage",
-          "license_scan_analysis_result_description": "The license detection is incorrect but the match is almost correct, only a small percentage of the text is not matched",
-          "region_license_error_case": "notice",
-          "region_license_error_case_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "near-perfect-match-coverage",
+          "analysis_description": "The license detection is incorrect but the match is almost correct, only small percentage of the text is not matched",
+          "error_rule_type": "is_license_notice",
+          "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
+          "error_rule_sub_type": "notice-single-key-notice",
+          "error_rule_sub_type_description": "a notice that notifies a single license",
           "license_match_post_analysis": {
             "key": "gpl-3.0-plus",
             "matched_text": " *  AutoOpts is a copyrighted work.  This source file is not encumbered\n *  by AutoOpts licensing, but is provided under the licensing terms chosen\n *  by the genshellopt author or copyright holder.  AutoOpts is\n *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
           }
         },
         {
-          "start_line_region": 54,
-          "end_line_region": 62,
-          "license_matches": [
+          "start_line": 54,
+          "end_line": 62,
+          "licenses": [
             {
               "key": "gpl-3.0-plus",
               "score": 100.0,
@@ -775,12 +841,12 @@
               "matched_text": "\"genshellopt is free software: you can redistribute it and/or modify it under \\\nthe terms of the GNU General Public License as published by the Free Software \\\nFoundation, either version 3 of the License, or (at your option) any later \\\nversion.  \\\ngenshellopt is distributed in the hope that it will be useful, but WITHOUT ANY \\\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \\\nPARTICULAR PURPOSE.  See the GNU General Public License for more details.  \\\nYou should have received a copy of the GNU General Public License along with \\\nthis program.  If not, see <http://www.gnu.org/licenses/>.\";"
             }
           ],
-          "license_scan_analysis_result": "correct-license-detection",
-          "license_scan_analysis_result_description": "The license detection is correct",
-          "region_license_error_case": null,
-          "region_license_error_case_description": null,
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "correct-license-detection",
+          "analysis_description": "The license detection is correct",
+          "error_rule_type": null,
+          "error_rule_type_description": null,
+          "error_rule_sub_type": null,
+          "error_rule_sub_type_description": null,
           "license_match_post_analysis": null
         }
       ],

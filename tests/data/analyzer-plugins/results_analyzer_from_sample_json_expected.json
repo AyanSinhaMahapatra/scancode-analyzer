@@ -146,9 +146,9 @@
       "is_license_text": false,
       "license_detection_analysis": [
         {
-          "start_line_region": 3,
-          "end_line_region": 3,
-          "license_matches": [
+          "start_line": 3,
+          "end_line": 3,
+          "licenses": [
             {
               "key": "gpl-2.0",
               "score": 20.59,
@@ -183,12 +183,12 @@
               "matched_text": "/* Published under the GNU General Public License V.2, see file COPYING */"
             }
           ],
-          "license_scan_analysis_result": "imperfect-match-coverage",
-          "license_scan_analysis_result_description": "The license detection is incorrect, a large variation is present from the matched rule(s) and is matched to only one part of the whole text",
-          "region_license_error_case": "notice",
-          "region_license_error_case_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "imperfect-match-coverage",
+          "analysis_description": "The license detection is incorrect, a large variation is present from the matched rule(s) and is matched to only one part of the whole text",
+          "error_rule_type": "is_license_notice",
+          "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
+          "error_rule_sub_type": "notice-single-key-notice",
+          "error_rule_sub_type_description": "a notice that notifies a single license",
           "license_match_post_analysis": {
             "key": "gpl-2.0",
             "matched_text": "/* Published under the GNU General Public License V.2, see file COPYING */"
@@ -267,9 +267,9 @@
       "is_license_text": false,
       "license_detection_analysis": [
         {
-          "start_line_region": 9,
-          "end_line_region": 22,
-          "license_matches": [
+          "start_line": 9,
+          "end_line": 22,
+          "licenses": [
             {
               "key": "lgpl-2.0-plus",
               "score": 100.0,
@@ -304,12 +304,12 @@
               "matched_text": "   The GNU C Library is free software; you can redistribute it and/or\n   modify it under the terms of the GNU Library General Public License as\n   published by the Free Software Foundation; either version 2 of the\n   License, or (at your option) any later version.\n\n   The GNU C Library is distributed in the hope that it will be useful,\n   but WITHOUT ANY WARRANTY; without even the implied warranty of\n   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\n   Library General Public License for more details.\n\n   You should have received a copy of the GNU Library General Public\n   License along with the GNU C Library; see the file COPYING.LIB.  If not,\n   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,\n   Boston, MA 02110-1301, USA.  */"
             }
           ],
-          "license_scan_analysis_result": "correct-license-detection",
-          "license_scan_analysis_result_description": "The license detection is correct",
-          "region_license_error_case": null,
-          "region_license_error_case_description": null,
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "correct-license-detection",
+          "analysis_description": "The license detection is correct",
+          "error_rule_type": null,
+          "error_rule_type_description": null,
+          "error_rule_sub_type": null,
+          "error_rule_sub_type_description": null,
           "license_match_post_analysis": null
         }
       ],
@@ -623,9 +623,9 @@
       "is_license_text": false,
       "license_detection_analysis": [
         {
-          "start_line_region": 14,
-          "end_line_region": 34,
-          "license_matches": [
+          "start_line": 14,
+          "end_line": 34,
+          "licenses": [
             {
               "key": "unknown",
               "score": 27.0,
@@ -858,21 +858,21 @@
               "matched_text": " * This source file is copyrighted and licensed under the following terms:"
             }
           ],
-          "license_scan_analysis_result": "imperfect-match-coverage",
-          "license_scan_analysis_result_description": "The license detection is incorrect, a large variation is present from the matched rule(s) and is matched to only one part of the whole text",
-          "region_license_error_case": "notice",
-          "region_license_error_case_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "imperfect-match-coverage",
+          "analysis_description": "The license detection is incorrect, a large variation is present from the matched rule(s) and is matched to only one part of the whole text",
+          "error_rule_type": "is_license_notice",
+          "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
+          "error_rule_sub_type": "notice-has-unknown-match",
+          "error_rule_sub_type_description":  "license references with unknown licenses detected i.e. fragments of known license text",
           "license_match_post_analysis": {
             "key": "agpl-3.0-plus",
             "rule_text": " *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
           }
         },
         {
-          "start_line_region": 54,
-          "end_line_region": 62,
-          "license_matches": [
+          "start_line": 54,
+          "end_line": 62,
+          "licenses": [
             {
               "key": "gpl-3.0-plus",
               "score": 98.99,
@@ -907,12 +907,12 @@
               "matched_text": "\"genshellopt is free software: you can redistribute it and/or modify it under \\\nthe terms of the GNU General Public License as published by the Free Software \\\nFoundation, either version 3 of the License, or (at your option) any later \\\nversion.  \\\ngenshellopt is distributed in the hope that it will be useful, but WITHOUT ANY \\\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \\\nPARTICULAR PURPOSE.  See the GNU General Public License for more details.  \\\nYou should have received a copy of the GNU General Public License along with \\\nthis program.  If not, see <http://www.gnu.org/licenses/>.\";"
             }
           ],
-          "license_scan_analysis_result": "extra-words",
-          "license_scan_analysis_result_description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule",
-          "region_license_error_case": "notice",
-          "region_license_error_case_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "region_license_error_sub_case": null,
-          "region_license_error_sub_case_description": null,
+          "analysis": "extra-words",
+          "analysis_description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule",
+          "error_rule_type": "is_license_notice",
+          "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
+          "error_rule_sub_type": "notice-single-key-notice",
+          "error_rule_sub_type_description": "a notice that notifies a single license",
           "license_match_post_analysis": {
             "key": "gpl-3.0-plus",
             "matched_text": "\"genshellopt is free software: you can redistribute it and/or modify it under \\\nthe terms of the GNU General Public License as published by the Free Software \\\nFoundation, either version 3 of the License, or (at your option) any later \\\nversion.  \\\ngenshellopt is distributed in the hope that it will be useful, but WITHOUT ANY \\\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \\\nPARTICULAR PURPOSE.  See the GNU General Public License for more details.  \\\nYou should have received a copy of the GNU General Public License along with \\\nthis program.  If not, see <http://www.gnu.org/licenses/>.\";"

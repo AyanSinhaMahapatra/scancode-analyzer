@@ -28,16 +28,22 @@ import attr
 
 from commoncode.testcase import FileBasedTesting
 from commoncode.resource import Resource
+from commoncode.resource import VirtualCodebase
 from commoncode.resource import build_attributes_defs
 from scancode.cli_test_utils import check_json_scan
 from scancode.cli_test_utils import run_scan_click
 
-from results_analyze.analyzer_plugin import validate_resource
-from results_analyze.analyzer_plugin import NotAnalyzableResourceException
+from results_analyze.analyzer_plugin import is_analyzable
+from results_analyze.analyzer_plugin import ResultsAnalyzer
+from results_analyze.analyzer_plugin import MISSING_OPTIONS_MESSAGE
 
 
 class AnalyzerPlugin(FileBasedTesting):
     test_data_dir = os.path.join(os.path.dirname(__file__), "data/analyzer-plugins/")
+    missing_options_full_msg = (
+        "Cannot analyze scan for license detection errors, because "
+        "required attributes are missing. " + MISSING_OPTIONS_MESSAGE,
+    )
 
     def test_analyze_results_plugin(self):
         test_dir = self.get_test_loc("scan-files/")
@@ -78,68 +84,90 @@ class AnalyzerPlugin(FileBasedTesting):
         )
 
     @staticmethod
-    def test_validate_resource_returns_true_if_all_attributes_are_present():
+    def test_is_analyzable_returns_true_if_all_attributes_are_present():
         data = {
             "licenses": [{"matched_text": "MIT License"}],
             "is_license_text": True,
             "is_legal": False,
         }
         test_resource = create_mock_resource(data)
-        assert validate_resource(test_resource)
+        assert is_analyzable(test_resource)
 
     @staticmethod
-    def test_validate_resource_returns_false_if_no_licenses_are_matched():
+    def test_is_analyzable_returns_false_if_no_matched_text():
         data = {
-            "licenses": [],
+            "licenses": [{"key": "mit"}],
             "is_license_text": False,
             "is_legal": False,
         }
         test_resource = create_mock_resource(data)
-        assert not validate_resource(test_resource)
+        assert not is_analyzable(test_resource)
 
-    def test_validate_resource_raise_exception_if_missing_is_legal(self):
+    @staticmethod
+    def test_is_analyzable_returns_false_missing_is_legal():
         data = {
             "licenses": [{"matched_text": "MIT License"}],
             "is_license_text": True,
         }
         test_resource = create_mock_resource(data)
-        try:
-            validate_resource(test_resource)
-            self.fail(msg="Exception not raised")
-        except NotAnalyzableResourceException:
-            pass
+        assert not is_analyzable(test_resource)
 
-    def test_validate_resource_raise_exception_if_missing_is_license_text(self):
+    @staticmethod
+    def test_is_analyzable_returns_false_missing_is_license_text():
         data = {
             "licenses": [{"matched_text": "MIT License"}],
             "is_legal": False,
         }
         test_resource = create_mock_resource(data)
-        try:
-            validate_resource(test_resource)
-            self.fail(msg="Exception not raised")
-        except NotAnalyzableResourceException:
-            pass
+        assert not is_analyzable(test_resource)
 
-    def test_validate_resource_raise_exception_if_missing_license(self):
-        data = {
-            "is_legal": False,
-            "is_license_text": True,
-        }
-        test_resource = create_mock_resource(data)
-        try:
-            validate_resource(test_resource)
-            self.fail(msg="Exception not raised")
-        except NotAnalyzableResourceException:
-            pass
-
-    def test_validate_resource_raise_exception_if_missing_all(self):
+    @staticmethod
+    def test_is_analyzable_returns_false_if_missing_all():
         data = {}
         test_resource = create_mock_resource(data)
+        assert not is_analyzable(test_resource)
+
+    def test_process_codebase_adds_error_if_missing_is_legal(self):
+        codebase = initialize_and_analyze_mock_codebase(
+            self.get_test_loc("sample_files_missing_legal.json")
+        )
+
+        assert len(codebase.errors) == 1
+        assert codebase.errors.pop() == self.missing_options_full_msg
+
+    def test_process_codebase_adds_error_if_missing_is_license_text(self):
+        codebase = initialize_and_analyze_mock_codebase(
+            self.get_test_loc("sample_files_missing_is_license_text.json")
+        )
+
+        assert len(codebase.errors) == 1
+        assert codebase.errors.pop() == self.missing_options_full_msg
+
+    def test_process_codebase_adds_error_if_missing_license_text(self):
+        codebase = initialize_and_analyze_mock_codebase(
+            self.get_test_loc("sample_files_missing_license_text.json")
+        )
+
+        assert len(codebase.errors) == 1
+        assert codebase.errors.pop() == self.missing_options_full_msg
+
+    def test_process_codebase_adds_error_if_missing_license(self):
+        codebase = initialize_and_analyze_mock_codebase(
+            self.get_test_loc("sample_files_missing_licenses.json")
+        )
+
+        assert len(codebase.errors) == 1
+        assert codebase.errors.pop() == self.missing_options_full_msg
+
+    def test_validate_resource_raise_exception_if_analysis_error(self):
+        input_json = self.get_test_loc("sample_file_make_analysis_fail.json")
+        codebase = VirtualCodebase(input_json)
+        analyzer_plugin = ResultsAnalyzer()
+
         try:
-            validate_resource(test_resource)
+            analyzer_plugin.process_codebase(codebase=codebase)
             self.fail(msg="Exception not raised")
-        except NotAnalyzableResourceException:
+        except Exception:
             pass
 
 
@@ -165,3 +193,10 @@ def create_mock_resource(data):
     )
 
     return resource
+
+
+def initialize_and_analyze_mock_codebase(input_json):
+    codebase = VirtualCodebase(input_json)
+    analyzer_plugin = ResultsAnalyzer()
+    analyzer_plugin.process_codebase(codebase=codebase)
+    return codebase

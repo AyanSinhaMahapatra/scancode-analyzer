@@ -31,9 +31,10 @@ from plugincode.post_scan import post_scan_impl
 
 from results_analyze import analyzer
 
-
-class NotAnalyzableResourceException(Exception):
-    pass
+MISSING_OPTIONS_MESSAGE = (
+    "The scan must be run with these options: "
+    "--license --license-text --is-license-text --classify --info"
+)
 
 
 @post_scan_impl
@@ -54,10 +55,9 @@ class ResultsAnalyzer(PostScanPlugin):
             ("--analyze-license-results",),
             is_flag=True,
             default=False,
-            help='Performs a license detection analysis to detect different kinds of '
-                 'potential license detection issues in scancode. '
-                 'Required scancode CLI options to run this analysis are:'
-                 '--license --license-text --is-license-text --classify --info',
+            help="Performs a license detection analysis to detect different kinds of "
+            "potential license detection issues in scancode. "
+            + MISSING_OPTIONS_MESSAGE,
             help_group=POST_SCAN_GROUP,
         ),
     ]
@@ -66,71 +66,48 @@ class ResultsAnalyzer(PostScanPlugin):
         return analyze_license_results
 
     def process_codebase(self, codebase, **kwargs):
+        msg = (
+            "Cannot analyze scan for license detection errors, because "
+            "required attributes are missing. " + MISSING_OPTIONS_MESSAGE,
+        )
+
         for resource in codebase.walk():
             if not resource.is_file:
                 continue
 
-            try:
-                # Will fail if missing attributes
-                is_resource_validated = validate_resource(resource)
-            except NotAnalyzableResourceException as e:
-                msg = str(e)
+            if not hasattr(resource, "licenses"):
                 codebase.errors.append(msg)
                 break
 
-            if is_resource_validated:
-                resource.license_detection_analysis = analyze_resource(resource)
-                codebase.save_resource(resource)
+            license_matches = getattr(resource, "licenses", [])
+            if not license_matches:
+                continue
+
+            if not is_analyzable(resource):
+                codebase.errors.append(msg)
+                break
+
+            try:
+                ars = analyzer.AnalysisResult.from_license_matches(
+                    license_matches=license_matches,
+                    is_license_text=getattr(resource, "is_license_text", False),
+                    is_legal=getattr(resource, "is_legal", False),
+                )
+                resource.license_detection_analysis = [ar.to_dict() for ar in ars]
+            except Exception as e:
+                msg = f"Cannot analyze scan for license scan errors: {str(e)}"
+                resource.errors.append(msg)
+            codebase.save_resource(resource)
 
 
-def validate_resource(resource):
+def is_analyzable(resource):
     """
     Return True if resource has all the data required for the analysis.
-    Return False if the resource does not have detected licenses.
-    Raise an exception if any of the essential attributes are missing from the resource.
+    Return False if any of the essential attributes are missing from the resource.
     """
-    has_licenses = hasattr(resource, "licenses")
-    licenses = getattr(resource, "licenses", [])
-    if has_licenses and not licenses:
-        return False
+    license_matches = getattr(resource, "licenses", [])
+    has_is_license_text = hasattr(resource, "is_license_text")
+    has_is_legal = hasattr(resource, "is_legal")
+    has_matched_text = all("matched_text" in match for match in license_matches)
 
-    has_license_text = hasattr(resource, "is_license_text")
-    has_legal = hasattr(resource, "is_legal")
-    has_matched_text = all(
-        "matched_text" in license_match for license_match in licenses
-    )
-
-    if has_licenses and has_license_text and has_matched_text and has_legal:
-        return True
-
-    raise NotAnalyzableResourceException(
-        f"{resource.path} cannot be analyzed for license scan errors, "
-        f"required attributes are: is_license_text, is_legal, license.matched_text. "
-        f"Rerun scan with these options: "
-        f"--license --license-text --is-license-text --classify --info"
-    )
-
-
-def analyze_resource(resource):
-    """
-    Analyzes license scan attributes for a resource and classifies license scan issues.
-
-    :param resource: object
-        An object of the commoncode.Resource class, having all resource level scan-data.
-    :return: dict
-        Resource attribute containing license scan analysis result for the resource.
-    """
-    has_attributes_for_analysis = validate_resource(resource)
-
-    if not has_attributes_for_analysis:
-        return []
-
-    licenses = getattr(resource, "licenses")
-    is_license_text = getattr(resource, "is_license_text", False)
-    is_legal = getattr(resource, "is_legal", False)
-
-    return analyzer.analyze_license_matches(
-        matched_licences=licenses,
-        is_license_text=is_license_text,
-        is_legal=is_legal,
-    )
+    return has_is_license_text and has_matched_text and has_is_legal

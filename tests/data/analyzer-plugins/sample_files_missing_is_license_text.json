@@ -1,58 +1,58 @@
 {
-  "headers": [
-    {
-      "tool_name": "scancode-toolkit",
-      "tool_version": "3.2.3",
-      "options": {
-        "input": [
-          "tests/data/analyzer-plugins/scan-files/"
-        ],
-        "--json-pp": "tests/data/analyzer-plugins/sample_files_result.json",
-        "--license": true,
-        "--license-text": true
-      },
-      "notice": "Generated with ScanCode and provided on an \"AS IS\" BASIS, WITHOUT WARRANTIES\nOR CONDITIONS OF ANY KIND, either express or implied. No content created from\nScanCode should be considered or used as legal advice. Consult an Attorney\nfor any legal advice.\nScanCode is a free software code scanning tool from nexB Inc. and others.\nVisit https://github.com/nexB/scancode-toolkit/ for support and download.",
-      "start_timestamp": "2020-12-10T122628.422188",
-      "end_timestamp": "2020-12-10T122653.257147",
-      "duration": 24.83500647544861,
-      "message": null,
-      "errors": [],
-      "extra_data": {
-        "files_count": 4
-      }
-    },
-    {
-      "tool_name": "scancode-toolkit",
-      "tool_version": "3.2.3",
-      "options": {
-        "input": "<path>",
-        "--analyze-results": true,
-        "--from-json": [
-          true
-        ],
-        "--json": "<file>"
-      },
-      "notice": "Generated with ScanCode and provided on an \"AS IS\" BASIS, WITHOUT WARRANTIES\nOR CONDITIONS OF ANY KIND, either express or implied. No content created from\nScanCode should be considered or used as legal advice. Consult an Attorney\nfor any legal advice.\nScanCode is a free software code scanning tool from nexB Inc. and others.\nVisit https://github.com/nexB/scancode-toolkit/ for support and download.",
-      "message": null,
-      "errors": [],
-      "extra_data": {
-        "files_count": 4
-      }
-    }
-  ],
   "files": [
     {
       "path": "scan-files",
       "type": "directory",
+      "name": "scan-files",
+      "base_name": "scan-files",
+      "extension": "",
+      "size": 0,
+      "date": null,
+      "sha1": null,
+      "md5": null,
+      "sha256": null,
+      "mime_type": null,
+      "file_type": null,
+      "programming_language": null,
+      "is_binary": false,
+      "is_text": false,
+      "is_archive": false,
+      "is_media": false,
+      "is_source": false,
+      "is_script": false,
       "licenses": [],
       "license_expressions": [],
       "percentage_of_license_text": 0,
-      "license_detection_errors": [],
+      "is_legal": false,
+      "is_manifest": false,
+      "is_readme": false,
+      "is_top_level": true,
+      "is_key_file": false,
+      "files_count": 3,
+      "dirs_count": 0,
+      "size_count": 71947,
       "scan_errors": []
     },
     {
       "path": "scan-files/1912-libtool-2.2.10-argz.c",
       "type": "file",
+      "name": "1912-libtool-2.2.10-argz.c",
+      "base_name": "1912-libtool-2.2.10-argz",
+      "extension": ".c",
+      "size": 5903,
+      "date": "2020-11-30",
+      "sha1": "0463f3f27739f3fecb1e7c51130541fb213d7d29",
+      "md5": "9bc35c1c3c4ada358e2c0f1afeb4b8b8",
+      "sha256": "945ad99eb763a61cb3073c958d41f7d141427a6d4ab5143c8acbd1cb7db19329",
+      "mime_type": "text/x-c",
+      "file_type": "C source, ASCII text",
+      "programming_language": "C",
+      "is_binary": false,
+      "is_text": true,
+      "is_archive": false,
+      "is_media": false,
+      "is_source": true,
+      "is_script": false,
       "licenses": [
         {
           "key": "lgpl-2.0-plus",
@@ -127,25 +127,36 @@
         "lgpl-2.0-plus WITH libtool-exception-2.0"
       ],
       "percentage_of_license_text": 20.65,
-      "license_detection_errors": [
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "extra-words",
-          "region_license_error_case": "notice",
-          "region_license_error_sub_case": null
-        },
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "extra-words",
-          "region_license_error_case": "notice",
-          "region_license_error_sub_case": null
-        }
-      ],
+      "is_legal": false,
+      "is_manifest": false,
+      "is_readme": false,
+      "is_top_level": true,
+      "is_key_file": false,
+      "files_count": 0,
+      "dirs_count": 0,
+      "size_count": 0,
       "scan_errors": []
     },
     {
       "path": "scan-files/cmCommandArgumentParser.cxx",
       "type": "file",
+      "name": "cmCommandArgumentParser.cxx",
+      "base_name": "cmCommandArgumentParser",
+      "extension": ".cxx",
+      "size": 53318,
+      "date": "2020-11-30",
+      "sha1": "a5a7ba78b9972bfddc0919e510b9abad879d6597",
+      "md5": "7d2947d3b87e369b58a4189705027dfc",
+      "sha256": "93de7c521264240db0a98ad1338b7a4d7a5d3831a51df5f5739e3e66aaf71595",
+      "mime_type": "text/x-c",
+      "file_type": "C source, ASCII text",
+      "programming_language": "C++",
+      "is_binary": false,
+      "is_text": true,
+      "is_archive": false,
+      "is_media": false,
+      "is_source": true,
+      "is_script": false,
       "licenses": [
         {
           "key": "bsd-new",
@@ -291,37 +302,36 @@
         "bsd-new"
       ],
       "percentage_of_license_text": 5.51,
-      "license_detection_errors": [
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "correct-license-detection",
-          "region_license_error_case": null,
-          "region_license_error_sub_case": null
-        },
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "correct-license-detection",
-          "region_license_error_case": null,
-          "region_license_error_sub_case": null
-        },
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "correct-license-detection",
-          "region_license_error_case": null,
-          "region_license_error_sub_case": null
-        },
-        {
-          "location_region_number": 2,
-          "license_scan_analysis_result": "correct-license-detection",
-          "region_license_error_case": null,
-          "region_license_error_sub_case": null
-        }
-      ],
+      "is_legal": false,
+      "is_manifest": false,
+      "is_readme": false,
+      "is_top_level": true,
+      "is_key_file": false,
+      "files_count": 0,
+      "dirs_count": 0,
+      "size_count": 0,
       "scan_errors": []
     },
     {
       "path": "scan-files/genshell.c",
       "type": "file",
+      "name": "genshell.c",
+      "base_name": "genshell",
+      "extension": ".c",
+      "size": 12726,
+      "date": "2020-11-30",
+      "sha1": "6e90946dc8b6f8a580b168a32818bf3c896e7946",
+      "md5": "917f0c4669c39e5785d65ec66ee7f13a",
+      "sha256": "5a3d70ed83b2c13136a200bd56ca742fc30722fd7821e223b9536d0d26813c35",
+      "mime_type": "text/x-c",
+      "file_type": "C source, ASCII text",
+      "programming_language": "C",
+      "is_binary": false,
+      "is_text": true,
+      "is_archive": false,
+      "is_media": false,
+      "is_source": true,
+      "is_script": false,
       "licenses": [
         {
           "key": "gpl-3.0-plus",
@@ -395,72 +405,14 @@
         "gpl-3.0-plus"
       ],
       "percentage_of_license_text": 17.99,
-      "license_detection_errors": [
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "near-perfect-match-coverage",
-          "region_license_error_case": "notice",
-          "region_license_error_sub_case": null
-        },
-        {
-          "location_region_number": 2,
-          "license_scan_analysis_result": "correct-license-detection",
-          "region_license_error_case": null,
-          "region_license_error_sub_case": null
-        }
-      ],
-      "scan_errors": []
-    },
-    {
-      "path": "scan-files/genshell.h",
-      "type": "file",
-      "licenses": [
-        {
-          "key": "gpl-3.0-plus",
-          "score": 95.16,
-          "name": "GNU General Public License 3.0 or later",
-          "short_name": "GPL 3.0 or later",
-          "category": "Copyleft",
-          "is_exception": false,
-          "owner": "Free Software Foundation (FSF)",
-          "homepage_url": "http://www.gnu.org/licenses/gpl-3.0-standalone.html",
-          "text_url": "http://www.gnu.org/licenses/gpl-3.0-standalone.html",
-          "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:gpl-3.0-plus",
-          "spdx_license_key": "GPL-3.0-or-later",
-          "spdx_url": "https://spdx.org/licenses/GPL-3.0-or-later",
-          "start_line": 11,
-          "end_line": 34,
-          "matched_rule": {
-            "identifier": "gpl-3.0-plus_209.RULE",
-            "license_expression": "gpl-3.0-plus",
-            "licenses": [
-              "gpl-3.0-plus"
-            ],
-            "is_license_text": false,
-            "is_license_notice": true,
-            "is_license_reference": false,
-            "is_license_tag": false,
-            "matcher": "3-seq",
-            "rule_length": 186,
-            "matched_length": 177,
-            "match_coverage": 95.16,
-            "rule_relevance": 100.0
-          },
-          "matched_text": " *  AutoOpts is a copyrighted work.  This header file is not encumbered\n *  by AutoOpts licensing, but is provided under the licensing terms chosen\n *  by the genshellopt author or copyright holder.  AutoOpts is\n *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
-        }
-      ],
-      "license_expressions": [
-        "gpl-3.0-plus"
-      ],
-      "percentage_of_license_text": 22.29,
-      "license_detection_errors": [
-        {
-          "location_region_number": 1,
-          "license_scan_analysis_result": "near-perfect-match-coverage",
-          "region_license_error_case": "notice",
-          "region_license_error_sub_case": null
-        }
-      ],
+      "is_legal": false,
+      "is_manifest": false,
+      "is_readme": false,
+      "is_top_level": true,
+      "is_key_file": false,
+      "files_count": 0,
+      "dirs_count": 0,
+      "size_count": 0,
       "scan_errors": []
     }
   ]

@@ -72,7 +72,7 @@ class AnalysisResult:
             "A license rule from the scancode rules matches completely with a part of "
             "the text, but there's some extra words which aren't there in the rule"
         ),
-        "false-positives": "A piece of code/text is incorrectly detected as a license",
+        "false-positive": "A piece of code/text is incorrectly detected as a license",
     }
 
     ERROR_RULE_TYPE_CHOICES = {
@@ -103,7 +103,7 @@ class AnalysisResult:
         ),
         "text-lic-text-fragments": "only parts of a larger license text is detected",
         # `notice` sub-cases
-        "notice-and-or-except-notice": (
+        "notice-and-or-with-notice": (
             "a notice which notifies multiple licenses, as exceptions, as a choice "
             "between, or as together"
         ),
@@ -424,7 +424,7 @@ def get_license_notice_sub_type(license_matches, analysis):
         )
         for license_expression in match_rule_license_expressions
     ):
-        return "notice-and-or-except-notice"
+        return "notice-and-or-with-notice"
     elif any(
         "unknown" in license_expression
         for license_expression in match_rule_license_expressions
@@ -450,10 +450,11 @@ def get_license_reference_sub_type(license_matches, analysis):
 
     if analysis == "false-positive":
         return "reference-false-positive"
-    elif any("lead" in identifier for identifier in match_rule_identifiers):
-        return "reference-lead-in-refs"
-    elif any("unknown" in identifier for identifier in match_rule_identifiers):
-        return "reference-has-unknown-match"
+    elif (
+        any("lead" in identifier for identifier in match_rule_identifiers) or
+        any("unknown" in identifier for identifier in match_rule_identifiers)
+    ):
+        return "reference-lead-in-or-unknown-refs"
     else:
         return "reference-low-coverage-refs"
 
@@ -536,7 +537,7 @@ def get_license_match_from_region(group_of_license_matches, analysis_result):
         [match] = group_of_license_matches
         match = {key: match[key] for key in MATCH_ATTRIBUTES_TO_KEEP}
     else:
-        if analysis_result.error_rule_sub_type == "notice-and-or-except-notice":
+        if analysis_result.error_rule_sub_type == "notice-and-or-with-notice":
             match = group_of_license_matches
         else:
             match = consolidate_matches_in_one_region(group_of_license_matches)

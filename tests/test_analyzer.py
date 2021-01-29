@@ -344,7 +344,7 @@ class TestAnalyzer(FileBasedTesting):
             license_matches=matches, analysis_result=analysis_result,
             is_license_text=False, is_legal=False
         )
-        assert "notice-and-or-except-notice" == analysis_result.error_rule_sub_type
+        assert "notice-and-or-with-notice" == analysis_result.error_rule_sub_type
 
     def test_get_error_rule_sub_type_case_single_key(self):
         test_file = self.get_test_loc("get_error_rule_sub_type_case_notice_single_key.json")
@@ -377,7 +377,7 @@ class TestAnalyzer(FileBasedTesting):
             license_matches=matches, analysis_result=analysis_result,
             is_license_text=False, is_legal=False
         )
-        assert "reference-lead-in-refs" == analysis_result.error_rule_sub_type
+        assert "reference-lead-in-or-unknown-refs" == analysis_result.error_rule_sub_type
 
     def test_get_error_rule_sub_type_case_ref_unknown(self):
         test_file = self.get_test_loc("get_error_rule_sub_type_case_ref_unknown.json")
@@ -389,7 +389,7 @@ class TestAnalyzer(FileBasedTesting):
             license_matches=matches, analysis_result=analysis_result,
             is_license_text=False, is_legal=False
         )
-        assert "reference-has-unknown-match" == analysis_result.error_rule_sub_type
+        assert "reference-lead-in-or-unknown-refs" == analysis_result.error_rule_sub_type
 
     def test_merge_string_without_overlap(self):
         test_file = self.get_test_loc("merge_strings_test_strings.json")

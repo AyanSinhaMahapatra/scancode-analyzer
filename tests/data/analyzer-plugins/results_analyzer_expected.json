@@ -233,7 +233,7 @@
           "analysis_description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule",
           "error_rule_type": "is_license_notice",
           "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "error_rule_sub_type": "notice-and-or-except-notice",
+          "error_rule_sub_type": "notice-and-or-with-notice",
           "error_rule_sub_type_description": "a notice which notifies multiple licenses, as exceptions, as a choice between, or as together",
           "license_match_post_analysis": [
             {

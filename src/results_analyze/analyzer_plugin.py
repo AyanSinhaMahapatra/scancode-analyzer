@@ -96,7 +96,7 @@ class ResultsAnalyzer(PostScanPlugin):
                 resource.license_detection_analysis = [ar.to_dict() for ar in ars]
             except Exception as e:
                 msg = f"Cannot analyze scan for license scan errors: {str(e)}"
-                resource.errors.append(msg)
+                resource.scan_errors.append(msg)
             codebase.save_resource(resource)
 
 

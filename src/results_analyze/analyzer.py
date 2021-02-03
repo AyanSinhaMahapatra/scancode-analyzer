@@ -50,6 +50,98 @@ MATCH_ATTRIBUTES_TO_KEEP = [
 ]
 
 
+class LicenseMatchSuggested:
+
+    SUGGESTION_CHOICES = {
+        "review-with-source-file": (
+            "There are only fragments of the whole text, and thus the source file "
+            "needs to be fetched and looked at side-by-side for a complete review."
+        ),
+        "review-analysis": (
+            "The analysis/suggested match needs to be reviewed manually as there "
+            "could be issues."
+        ),
+        "no-review": "No extra manual review is necessary."
+    }
+
+    ANALYSIS_CONFIDENCE_CHOICES = [
+        "high",
+        "medium",
+        "low",
+    ]
+
+    ERROR_TYPE_CONFIDENCE = {
+        # `text` sub-cases
+        "text-legal-lic-files": ["high", "review-with-source-file"],
+        "text-non-legal-lic-files": ["medium", "review-with-source-file"],
+        "text-lic-text-fragments": ["low", "review-with-source-file"],
+        # `notice` sub-cases
+        "notice-and-or-with-notice": ["high", "no-review"],
+        "notice-single-key-notice": ["medium", "review-analysis"],
+        "notice-has-unknown-match": ["medium", "review-analysis"],
+        "notice-false-positive": ["medium", "no-review"],
+        # `tag` sub-cases
+        "tag-tag-coverage": ["high", "no-review"],
+        "tag-other-tag-structures": ["high", "review-analysis"],
+        "tag-false-positive": ["medium", "no-review"],
+        # `reference` sub-cases
+        "reference-lead-in-or-unknown-refs": ["medium", "no-review"],
+        "reference-low-coverage-refs": ["medium", "no-review"],
+        "reference-to-local-file": ["high", "no-review"],
+        "reference-false-positive": ["medium", "no-review"],
+    }
+
+    def __init__(self):
+
+        self.license_expression = None
+
+        self.is_license_text = False
+        self.is_license_notice = False
+        self.is_license_tag = False
+        self.is_license_reference = False
+
+        self.matched_text = None
+
+        self.analysis_confidence = None
+        self.suggestion = TagDescription()
+
+    def to_dict(self, error_type_tag, analysis):
+
+        if analysis.tag == "correct-license-detection":
+            return None
+
+        if error_type_tag:
+            (
+                self.analysis_confidence,
+                self.suggestion.tag,
+            ) = self.ERROR_TYPE_CONFIDENCE[error_type_tag]
+
+        return {
+            "license_expression": self.license_expression,
+            "is_license_text": self.is_license_text,
+            "is_license_notice": self.is_license_notice,
+            "is_license_tag": self.is_license_tag,
+            "is_license_reference": self.is_license_reference,
+            "matched_text": self.matched_text,
+            "confidence_level": self.analysis_confidence,
+            "suggestion": self.suggestion.to_dict(self.SUGGESTION_CHOICES),
+        }
+
+
+class TagDescription:
+
+    def __init__(self):
+        self.tag = None
+        self.additional_data = None
+
+    def to_dict(self, description_choices):
+        if self.tag:
+            return {
+                "tag": self.tag,
+                "description": description_choices[self.tag],
+            }
+
+
 class AnalysisResult:
     """
     An AnalysisResult object holds the analysis results for a file-region, containing
@@ -75,25 +167,7 @@ class AnalysisResult:
         "false-positive": "A piece of code/text is incorrectly detected as a license",
     }
 
-    ERROR_RULE_TYPE_CHOICES = {
-        "is_license_text": (
-            "The entire/partial license text i.e. the actual terms and conditions of "
-            "the license is present in the matched text"
-        ),
-        "is_license_notice": (
-            "A notice referencing the license name and some terms/implications are "
-            "present in the matched text"
-        ),
-        "is_license_tag": (
-            "Only a reference to a license in an existing structure is present in the "
-            "matched text"
-        ),
-        "is_license_reference": (
-            "A reference to a license in the form of a local file/online link"
-        ),
-    }
-
-    ERROR_RULE_SUB_TYPE_CHOICES = {
+    ERROR_TYPE_CHOICES = {
         # `text` sub-cases
         "text-legal-lic-files": (
             "the matched text is present in a file whose name is a known legal filename"
@@ -143,39 +217,31 @@ class AnalysisResult:
         self.end_line_region = None
 
         # A list of license matches that are detected by scancode in this region
-        self.license_matches = None
+        self.licenses = None
 
         # The single license match from the region which could be
         #   1. Stitched together from multiple fragments of multiple incomplete
         #      license matches
         #   2. There's only one license match, or multiple license matches
         #      joined with AND/OR/EXCEPT
-        self.license_match_post_analysis = None
+        self.license_suggested = LicenseMatchSuggested()
 
         # One of the ANALYSIS_CHOICES
-        self.analysis = None
-        self.analysis_description = None
+        self.analysis = TagDescription()
 
-        # One of ERROR_RULE_TYPE_CHOICES
-        self.error_rule_type = None
-        self.error_rule_type_description = None
-
-        # One of ERROR_RULE_SUB_TYPE_CHOICES
-        self.error_rule_sub_type = None
-        self.error_rule_sub_type_description = None
+        # One of ERROR_TYPE_CHOICES
+        self.error_type = TagDescription()
 
     def to_dict(self):
         return {
             "start_line": self.start_line_region,
             "end_line": self.end_line_region,
-            "licenses": self.license_matches,
-            "analysis": self.analysis,
-            "analysis_description": self.analysis_description,
-            "error_rule_type": self.error_rule_type,
-            "error_rule_type_description": self.error_rule_type_description,
-            "error_rule_sub_type": self.error_rule_sub_type,
-            "error_rule_sub_type_description": self.error_rule_sub_type_description,
-            "license_match_post_analysis": self.license_match_post_analysis,
+            "analysis": self.analysis.to_dict(self.RESULT_CHOICES),
+            "error_type": self.error_type.to_dict(self.ERROR_TYPE_CHOICES),
+            "license_suggested": self.license_suggested.to_dict(
+                self.error_type.tag, self.analysis
+            ),
+            "licenses": self.licenses,
         }
 
     @staticmethod
@@ -311,36 +377,36 @@ def get_analysis_for_region(license_matches, analysis_result):
     # Case where all matches have `matcher` as `1-hash` or `4-spdx-id`
     is_correct_license_detection = is_correct_detection(license_matches)
     if is_correct_license_detection:
-        analysis_result.analysis = "correct-license-detection"
+        analysis_result.analysis.tag = "correct-license-detection"
 
     # Case where at least one of the matches have `match_coverage`
     # below IMPERFECT_MATCH_COVERAGE_THR
     elif is_match_coverage_less_than_threshold(
         license_matches, IMPERFECT_MATCH_COVERAGE_THR
     ):
-        analysis_result.analysis = "imperfect-match-coverage"
+        analysis_result.analysis.tag = "imperfect-match-coverage"
 
     # Case where at least one of the matches have `match_coverage`
     # below NEAR_PERFECT_MATCH_COVERAGE_THR
     elif is_match_coverage_less_than_threshold(
         license_matches, NEAR_PERFECT_MATCH_COVERAGE_THR
     ):
-        analysis_result.analysis = "near-perfect-match-coverage"
+        analysis_result.analysis.tag = "near-perfect-match-coverage"
 
     # Case where at least one of the match have extra words
     elif is_extra_words(license_matches):
-        analysis_result.analysis = "extra-words"
+        analysis_result.analysis.tag = "extra-words"
 
     # Case where the match is a false positive
     elif is_false_positive(license_matches):
         if not USE_FALSE_POSITIVE_BERT_MODEL:
-            analysis_result.analysis = "false-positive"
+            analysis_result.analysis.tag = "false-positive"
         else:
             determine_false_positive_case_using_bert(license_matches, analysis_result)
 
     # Cases where Match Coverage is a perfect 100 for all matches
     else:
-        analysis_result.analysis = "correct-license-detection"
+        analysis_result.analysis.tag = "correct-license-detection"
         is_correct_license_detection = True
 
     return is_correct_license_detection
@@ -381,19 +447,19 @@ def get_error_rule_type(license_matches, analysis_result, is_license_text, is_le
         or is_legal
         or is_license_case(license_matches, "is_license_text")
     ):
-        analysis_result.error_rule_type = "is_license_text"
+        analysis_result.license_suggested.is_license_text = True
 
     # Case where at least one of the matches is matched to a `notice` rule.
     elif is_license_case(license_matches, "is_license_notice"):
-        analysis_result.error_rule_type = "is_license_notice"
+        analysis_result.license_suggested.is_license_notice = True
 
     # Case where at least one of the matches is matched to a `tag` rule.
     elif is_license_case(license_matches, "is_license_tag"):
-        analysis_result.error_rule_type = "is_license_tag"
+        analysis_result.license_suggested.is_license_tag = True
 
     # Case where at least one of the matches is matched to a `reference` rule.
     elif is_license_case(license_matches, "is_license_reference"):
-        analysis_result.error_rule_type = "is_license_reference"
+        analysis_result.license_suggested.is_license_reference = True
 
 
 def get_license_text_sub_type(is_license_text, is_legal):
@@ -415,7 +481,7 @@ def get_license_notice_sub_type(license_matches, analysis):
         match["matched_rule"]["license_expression"] for match in license_matches
     ]
 
-    if analysis == "false-positive":
+    if analysis.tag == "false-positive":
         return "notice-false-positive"
     elif all(
         any(
@@ -436,7 +502,7 @@ def get_license_notice_sub_type(license_matches, analysis):
 
 def get_license_tag_sub_type(analysis):
 
-    if analysis == "false-positive":
+    if analysis.tag == "false-positive":
         return "tag-false-positive"
     else:
         return "tag-tag-coverage"
@@ -448,7 +514,7 @@ def get_license_reference_sub_type(license_matches, analysis):
         match["matched_rule"]["identifier"] for match in license_matches
     ]
 
-    if analysis == "false-positive":
+    if analysis.tag == "false-positive":
         return "reference-false-positive"
     elif (
         any("lead" in identifier for identifier in match_rule_identifiers) or
@@ -462,20 +528,20 @@ def get_license_reference_sub_type(license_matches, analysis):
 def get_error_rule_sub_type(
     license_matches, analysis_result, is_license_text, is_legal
 ):
-    if analysis_result.error_rule_type == "is_license_text":
-        analysis_result.error_rule_sub_type = get_license_text_sub_type(
+    if analysis_result.license_suggested.is_license_text:
+        analysis_result.error_type.tag = get_license_text_sub_type(
             is_license_text, is_legal
         )
-    elif analysis_result.error_rule_type == "is_license_notice":
-        analysis_result.error_rule_sub_type = get_license_notice_sub_type(
+    elif analysis_result.license_suggested.is_license_notice:
+        analysis_result.error_type.tag = get_license_notice_sub_type(
             license_matches, analysis_result.analysis
         )
-    elif analysis_result.error_rule_type == "is_license_tag":
-        analysis_result.error_rule_sub_type = get_license_tag_sub_type(
+    elif analysis_result.license_suggested.is_license_tag:
+        analysis_result.error_type.tag = get_license_tag_sub_type(
             analysis_result.analysis
         )
-    elif analysis_result.error_rule_type == "is_license_reference":
-        analysis_result.error_rule_sub_type = get_license_reference_sub_type(
+    elif analysis_result.license_suggested.is_license_reference:
+        analysis_result.error_type.tag = get_license_reference_sub_type(
             license_matches, analysis_result.analysis
         )
 
@@ -505,14 +571,16 @@ def merge_string_with_overlap(string1, string2):
     return string1[:idx] + string2
 
 
-def get_start_end_line(group_of_license_matches):
-    region_end_line = max([match["end_line"] for match in group_of_license_matches])
-    region_start_line = min([match["start_line"] for match in group_of_license_matches])
+def get_start_end_line(group_of_license_matches, analysis_result):
+    analysis_result.start_line_region = min(
+        [match["start_line"] for match in group_of_license_matches]
+    )
+    analysis_result.end_line_region = max(
+        [match["end_line"] for match in group_of_license_matches]
+    )
 
-    return region_start_line, region_end_line
 
-
-def predict_license_key(group_of_license_matches):
+def predict_license_expression(group_of_license_matches, analysis_result):
     """
     Return the License Key of the match with the highest "matched_length".
     This cannot always predict the correct license key, but is a reasonable prediction
@@ -527,39 +595,43 @@ def predict_license_key(group_of_license_matches):
         for match in group_of_license_matches
         if match["matched_rule"]["matched_length"] is max_match_length
     )
-    return key_prediction
+    analysis_result.license_suggested.license_expression = key_prediction
 
 
 def get_license_match_from_region(group_of_license_matches, analysis_result):
-    if analysis_result.analysis == "correct-license-detection":
-        return None
-    elif len(group_of_license_matches) == 1:
-        [match] = group_of_license_matches
-        match = {key: match[key] for key in MATCH_ATTRIBUTES_TO_KEEP}
-    else:
-        if analysis_result.error_rule_sub_type == "notice-and-or-with-notice":
-            match = group_of_license_matches
+    if analysis_result.analysis.tag != "correct-license-detection":
+        if len(group_of_license_matches) == 1:
+            [match] = group_of_license_matches
+            analysis_result.license_suggested.license_expression = match["key"]
+            analysis_result.license_suggested.matched_text = match["matched_text"]
         else:
-            match = consolidate_matches_in_one_region(group_of_license_matches)
+            if analysis_result.error_type.tag == "notice-and-or-with-notice":
+                match = group_of_license_matches[0]
+                license_expression = match["matched_rule"]["license_expression"]
+                analysis_result.license_suggested.license_expression = license_expression
+                analysis_result.license_suggested.matched_text = match["matched_text"]
+            else:
+                predict_license_expression(group_of_license_matches, analysis_result)
+                consolidate_matches_in_one_region(
+                    group_of_license_matches, analysis_result
+                )
 
-    return match
 
-
-def consolidate_matches_in_one_region(group_of_license_matches):
+def consolidate_matches_in_one_region(group_of_license_matches, analysis_result):
     """
     Craft Rule from a group of Matches, which are in the same file-region.
     The license matches are incorrect matches and has fragments of a larger text,
     but, may not contain the entire text even after consolidating.
     """
 
-    rule_text = None
+    matched_text = None
     string_end_line = None
     is_first_group = True
 
     for match in group_of_license_matches:
         if is_first_group:
             string_end_line = match["end_line"]
-            rule_text = match["matched_text"]
+            matched_text = match["matched_text"]
             is_first_group = False
             continue
         else:
@@ -569,33 +641,21 @@ def consolidate_matches_in_one_region(group_of_license_matches):
 
         # Case: Has a line-overlap
         if string_end_line == present_start_line:
-            rule_text = merge_string_with_overlap(rule_text, present_text)
+            matched_text = merge_string_with_overlap(matched_text, present_text)
             string_end_line = present_end_line
 
         # Case: Boundary doesn't overlap but just beside
         elif string_end_line < present_start_line:
-            rule_text = merge_string_without_overlap(rule_text, present_text)
+            matched_text = merge_string_without_overlap(matched_text, present_text)
             string_end_line = present_end_line
 
         # Case: Deep Overlaps (Of more than one lines)
         elif string_end_line > present_start_line:
             if string_end_line < present_end_line:
-                rule_text = merge_string_with_overlap(rule_text, present_text)
+                matched_text = merge_string_with_overlap(matched_text, present_text)
                 string_end_line = present_end_line
 
-    # Predict Key of the crafted Rule based on the keys of the fragment matches
-    key_prediction = predict_license_key(group_of_license_matches)
-
-    match = {
-        # "path": path,
-        # "rule_class": rule_class,
-        # "start_line": string_start_line,
-        # "end_line": string_end_line,
-        "key": key_prediction,
-        "rule_text": rule_text,
-    }
-
-    return match
+    analysis_result.license_suggested.matched_text = matched_text
 
 
 def analyze_region_for_license_scan_errors(
@@ -627,10 +687,7 @@ def analyze_region_for_license_scan_errors(
 
         if not USE_LICENSE_CASE_BERT_MODEL:
             get_error_rule_type(
-                group_of_license_matches,
-                analysis_result,
-                is_license_text,
-                is_legal,
+                group_of_license_matches, analysis_result, is_license_text, is_legal,
             )
         else:
             determine_error_rule_type_using_bert(
@@ -657,31 +714,9 @@ def format_analysis_result(analysis_result, grouped_matches):
     :param grouped_matches: list
         All matches for a group (for a file-region).
     """
-    (
-        analysis_result.start_line_region,
-        analysis_result.end_line_region,
-    ) = get_start_end_line(grouped_matches)
-
-    analysis_result.license_matches = grouped_matches
-    analysis_result.license_match_post_analysis = get_license_match_from_region(
-        grouped_matches, analysis_result
-    )
-
-    analysis_result.analysis_description = analysis_result.RESULT_CHOICES[
-        analysis_result.analysis
-    ]
-
-    if analysis_result.error_rule_type:
-        analysis_result.error_rule_type_description = (
-            analysis_result.ERROR_RULE_TYPE_CHOICES[analysis_result.error_rule_type]
-        )
-
-    if analysis_result.error_rule_sub_type:
-        analysis_result.error_rule_sub_type_description = (
-            analysis_result.ERROR_RULE_SUB_TYPE_CHOICES[
-                analysis_result.error_rule_sub_type
-            ]
-        )
+    get_start_end_line(grouped_matches, analysis_result)
+    analysis_result.licenses = grouped_matches
+    get_license_match_from_region(grouped_matches, analysis_result)
 
 
 def group_matches(license_matches, lines_threshold=LINES_THRESHOLD):

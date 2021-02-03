@@ -233,12 +233,78 @@
           "analysis_description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule",
           "error_rule_type": "is_license_notice",
           "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
-          "error_rule_sub_type": "notice-single-key-notice",
-          "error_rule_sub_type_description": "a notice that notifies a single license",
-          "license_match_post_analysis": {
-            "key": "lgpl-2.0-plus",
-            "rule_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
-          }
+          "error_rule_sub_type": "notice-and-or-with-notice",
+          "error_rule_sub_type_description": "a notice which notifies multiple licenses, as exceptions, as a choice between, or as together",
+          "license_match_post_analysis": [
+            {
+              "key": "lgpl-2.0-plus",
+              "score": 97.8,
+              "name": "GNU Library General Public License 2.0 or later",
+              "short_name": "LGPL 2.0 or later",
+              "category": "Copyleft Limited",
+              "is_exception": false,
+              "owner": "Free Software Foundation (FSF)",
+              "homepage_url": "http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html",
+              "text_url": "http://www.gnu.org/licenses/old-licenses/lgpl-2.0-standalone.html",
+              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:lgpl-2.0-plus",
+              "spdx_license_key": "LGPL-2.0-or-later",
+              "spdx_url": "https://spdx.org/licenses/LGPL-2.0-or-later",
+              "start_line": 9,
+              "end_line": 28,
+              "matched_rule": {
+                "identifier": "lgpl-2.0-plus_with_libtool-exception-2.0_1.RULE",
+                "license_expression": "lgpl-2.0-plus WITH libtool-exception-2.0",
+                "licenses": [
+                  "lgpl-2.0-plus",
+                  "libtool-exception-2.0"
+                ],
+                "is_license_text": false,
+                "is_license_notice": true,
+                "is_license_reference": false,
+                "is_license_tag": false,
+                "matcher": "3-seq",
+                "rule_length": 178,
+                "matched_length": 178,
+                "match_coverage": 100.0,
+                "rule_relevance": 100
+              },
+              "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
+            },
+            {
+              "key": "libtool-exception-2.0",
+              "score": 97.8,
+              "name": "GNU Libtool exception to GPL 2.0",
+              "short_name": "GNU Libtool exception to GPL 2.0",
+              "category": "Copyleft Limited",
+              "is_exception": true,
+              "owner": "Free Software Foundation (FSF)",
+              "homepage_url": "http://git.savannah.gnu.org/cgit/libtool.git/tree/m4/libtool.m4",
+              "text_url": "",
+              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:libtool-exception-2.0",
+              "spdx_license_key": "Libtool-exception",
+              "spdx_url": "https://spdx.org/licenses/Libtool-exception",
+              "start_line": 9,
+              "end_line": 28,
+              "matched_rule": {
+                "identifier": "lgpl-2.0-plus_with_libtool-exception-2.0_1.RULE",
+                "license_expression": "lgpl-2.0-plus WITH libtool-exception-2.0",
+                "licenses": [
+                  "lgpl-2.0-plus",
+                  "libtool-exception-2.0"
+                ],
+                "is_license_text": false,
+                "is_license_notice": true,
+                "is_license_reference": false,
+                "is_license_tag": false,
+                "matcher": "3-seq",
+                "rule_length": 178,
+                "matched_length": 178,
+                "match_coverage": 100.0,
+                "rule_relevance": 100
+              },
+              "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
+            }
+          ]
         }
       ],
       "is_license_text": false,
@@ -727,7 +793,7 @@
             }
           ],
           "analysis": "near-perfect-match-coverage",
-          "analysis_description": "The license detection is incorrect but the match is almost correct, only a small percentage of the text is not matched",
+          "analysis_description": "The license detection is incorrect but the match is almost correct, only small percentage of the text is not matched",
           "error_rule_type": "is_license_notice",
           "error_rule_type_description": "A notice referencing the license name and some terms/implications are present in the matched text",
           "error_rule_sub_type": "notice-single-key-notice",

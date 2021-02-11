@@ -40,12 +40,12 @@ MISSING_OPTIONS_MESSAGE = (
 @post_scan_impl
 class ResultsAnalyzer(PostScanPlugin):
     """
-    Add the "license_detection_errors" list which has the license detection error
-    type information for each match errors.
+    Add the "license_detection_issues" list which has the analysis, type information
+    and suggested license match for each license match issue.
     """
 
     resource_attributes = {
-        "license_detection_analysis": attr.ib(default=attr.Factory(list))
+        "license_detection_issues": attr.ib(default=attr.Factory(list))
     }
 
     sort_order = 80
@@ -88,12 +88,12 @@ class ResultsAnalyzer(PostScanPlugin):
                 break
 
             try:
-                ars = analyzer.AnalysisResult.from_license_matches(
+                ars = analyzer.LicenseDetectionIssue.from_license_matches(
                     license_matches=license_matches,
                     is_license_text=getattr(resource, "is_license_text", False),
                     is_legal=getattr(resource, "is_legal", False),
                 )
-                resource.license_detection_analysis = [ar.to_dict() for ar in ars]
+                resource.license_detection_issues = [attr.asdict(ar) for ar in ars]
             except Exception as e:
                 msg = f"Cannot analyze scan for license scan errors: {str(e)}"
                 resource.scan_errors.append(msg)

@@ -73,7 +73,7 @@
       "is_top_level": true,
       "is_key_file": false,
       "is_license_text": false,
-      "license_detection_analysis": [],
+      "license_detection_issues": [],
       "files_count": 3,
       "dirs_count": 0,
       "size_count": 52791,
@@ -144,32 +144,27 @@
       "is_top_level": true,
       "is_key_file": false,
       "is_license_text": false,
-      "license_detection_analysis": [
+      "license_detection_issues": [
         {
           "start_line": 3,
           "end_line": 3,
-          "analysis": {
-            "tag": "imperfect-match-coverage",
-            "description": "The license detection is incorrect, a large variation is present from the matched rule(s) and is matched to only one part of the whole text"
-          },
-          "error_type": {
-            "tag": "notice-single-key-notice",
-            "description": "a notice that notifies a single license"
-          },
-          "license_suggested": {
-            "license_expression": "gpl-2.0",
+          "issue_id": "imperfect-match-coverage",
+          "issue_description": "The license detection is inconclusive with high confidence, because only a small part of the rule text is matched.",
+          "issue_type": {
+            "classification_id": "notice-single-key-notice",
+            "classification_description": "A notice with a single license.",
             "is_license_text": false,
             "is_license_notice": true,
             "is_license_tag": false,
             "is_license_reference": false,
-            "matched_text": "/* Published under the GNU General Public License V.2, see file COPYING */",
-            "confidence_level": "medium",
-            "suggestion": {
-              "tag": "review-analysis",
-              "description": "The analysis/suggested match needs to be reviewed manually as there could be issues."
-            }
+            "analysis_confidence": "high",
+            "is_suggested_match_text_complete": true
           },
-          "licenses": [
+          "suggested_license": {
+            "license_expression": "gpl-2.0",
+            "matched_text": "/* Published under the GNU General Public License V.2, see file COPYING */"
+          },
+          "original_licenses": [
             {
               "key": "gpl-2.0",
               "score": 20.59,
@@ -276,53 +271,7 @@
       "is_top_level": true,
       "is_key_file": false,
       "is_license_text": false,
-      "license_detection_analysis": [
-        {
-          "start_line": 9,
-          "end_line": 22,
-          "analysis": {
-            "tag": "correct-license-detection",
-            "description": "The license detection is correct"
-          },
-          "error_type": null,
-          "license_suggested": null,
-          "licenses": [
-            {
-              "key": "lgpl-2.0-plus",
-              "score": 100.0,
-              "name": "GNU Library General Public License 2.0 or later",
-              "short_name": "LGPL 2.0 or later",
-              "category": "Copyleft Limited",
-              "is_exception": false,
-              "owner": "Free Software Foundation (FSF)",
-              "homepage_url": "http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html",
-              "text_url": "http://www.gnu.org/licenses/old-licenses/lgpl-2.0-standalone.html",
-              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:lgpl-2.0-plus",
-              "spdx_license_key": "LGPL-2.0-or-later",
-              "spdx_url": "https://spdx.org/licenses/LGPL-2.0-or-later",
-              "start_line": 9,
-              "end_line": 22,
-              "matched_rule": {
-                "identifier": "lgpl-2.0-plus_234.RULE",
-                "license_expression": "lgpl-2.0-plus",
-                "licenses": [
-                  "lgpl-2.0-plus"
-                ],
-                "is_license_text": false,
-                "is_license_notice": true,
-                "is_license_reference": false,
-                "is_license_tag": false,
-                "matcher": "2-aho",
-                "rule_length": 127,
-                "matched_length": 127,
-                "match_coverage": 100.0,
-                "rule_relevance": 100.0
-              },
-              "matched_text": "   The GNU C Library is free software; you can redistribute it and/or\n   modify it under the terms of the GNU Library General Public License as\n   published by the Free Software Foundation; either version 2 of the\n   License, or (at your option) any later version.\n\n   The GNU C Library is distributed in the hope that it will be useful,\n   but WITHOUT ANY WARRANTY; without even the implied warranty of\n   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU\n   Library General Public License for more details.\n\n   You should have received a copy of the GNU Library General Public\n   License along with the GNU C Library; see the file COPYING.LIB.  If not,\n   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,\n   Boston, MA 02110-1301, USA.  */"
-            }
-          ]
-        }
-      ],
+      "license_detection_issues": [],
       "files_count": 0,
       "dirs_count": 0,
       "size_count": 0,
@@ -631,32 +580,27 @@
       "is_top_level": true,
       "is_key_file": false,
       "is_license_text": false,
-      "license_detection_analysis": [
+      "license_detection_issues": [
         {
           "start_line": 14,
           "end_line": 34,
-          "analysis": {
-            "tag": "imperfect-match-coverage",
-            "description": "The license detection is incorrect, a large variation is present from the matched rule(s) and is matched to only one part of the whole text"
-          },
-          "error_type": {
-            "tag": "notice-has-unknown-match",
-            "description": "license references with unknown licenses detected i.e. fragments of known license text"
-          },
-          "license_suggested": {
-            "license_expression": "agpl-3.0-plus",
+          "issue_id": "imperfect-match-coverage",
+          "issue_description": "The license detection is inconclusive with high confidence, because only a small part of the rule text is matched.",
+          "issue_type": {
+            "classification_id": "notice-has-unknown-match",
+            "classification_description": "License notices with unknown licenses detected.",
             "is_license_text": false,
             "is_license_notice": true,
             "is_license_tag": false,
             "is_license_reference": false,
-            "matched_text": " *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>.",
-            "confidence_level": "medium",
-            "suggestion": {
-              "tag": "review-analysis",
-              "description": "The analysis/suggested match needs to be reviewed manually as there could be issues."
-            }
+            "analysis_confidence": "medium",
+            "is_suggested_match_text_complete": true
           },
-          "licenses": [
+          "suggested_license": {
+            "license_expression": "agpl-3.0-plus",
+            "matched_text": " *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
+          },
+          "original_licenses": [
             {
               "key": "unknown",
               "score": 27.0,
@@ -893,28 +837,23 @@
         {
           "start_line": 54,
           "end_line": 62,
-          "analysis": {
-            "tag": "extra-words",
-            "description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule"
-          },
-          "error_type": {
-            "tag": "notice-single-key-notice",
-            "description": "a notice that notifies a single license"
-          },
-          "license_suggested": {
-            "license_expression": "gpl-3.0-plus",
+          "issue_id": "extra-words",
+          "issue_description": "The license detection is conclusive with high confidence because all the rule text is matched, but some unknown extra words have been inserted in the text.",
+          "issue_type": {
+            "classification_id": "notice-single-key-notice",
+            "classification_description":  "A notice with a single license.",
             "is_license_text": false,
             "is_license_notice": true,
             "is_license_tag": false,
             "is_license_reference": false,
-            "matched_text": "\"genshellopt is free software: you can redistribute it and/or modify it under \\\nthe terms of the GNU General Public License as published by the Free Software \\\nFoundation, either version 3 of the License, or (at your option) any later \\\nversion.  \\\ngenshellopt is distributed in the hope that it will be useful, but WITHOUT ANY \\\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \\\nPARTICULAR PURPOSE.  See the GNU General Public License for more details.  \\\nYou should have received a copy of the GNU General Public License along with \\\nthis program.  If not, see <http://www.gnu.org/licenses/>.\";",
-            "confidence_level": "medium",
-            "suggestion": {
-              "tag": "review-analysis",
-              "description": "The analysis/suggested match needs to be reviewed manually as there could be issues."
-            }
+            "analysis_confidence": "high",
+            "is_suggested_match_text_complete": true
           },
-          "licenses": [
+          "suggested_license": {
+            "license_expression": "gpl-3.0-plus",
+            "matched_text": "\"genshellopt is free software: you can redistribute it and/or modify it under \\\nthe terms of the GNU General Public License as published by the Free Software \\\nFoundation, either version 3 of the License, or (at your option) any later \\\nversion.  \\\ngenshellopt is distributed in the hope that it will be useful, but WITHOUT ANY \\\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \\\nPARTICULAR PURPOSE.  See the GNU General Public License for more details.  \\\nYou should have received a copy of the GNU General Public License along with \\\nthis program.  If not, see <http://www.gnu.org/licenses/>.\";"
+          },
+          "original_licenses": [
             {
               "key": "gpl-3.0-plus",
               "score": 98.99,

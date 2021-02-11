@@ -49,7 +49,7 @@
       "is_readme": false,
       "is_top_level": true,
       "is_key_file": false,
-      "license_detection_analysis": [],
+      "license_detection_issues": [],
       "is_license_text": false,
       "files_count": 3,
       "dirs_count": 0,
@@ -155,32 +155,27 @@
       "is_readme": false,
       "is_top_level": true,
       "is_key_file": false,
-      "license_detection_analysis": [
+      "license_detection_issues": [
         {
           "start_line": 9,
           "end_line": 28,
-          "analysis": {
-            "tag": "extra-words",
-            "description": "A license rule from the scancode rules matches completely with a part of the text, but there's some extra words which aren't there in the rule"
-          },
-          "error_type": {
-            "tag": "notice-and-or-with-notice",
-            "description": "a notice which notifies multiple licenses, as exceptions, as a choice between, or as together"
-          },
-          "license_suggested": {
-            "license_expression": "lgpl-2.0-plus WITH libtool-exception-2.0",
-            "is_license_text": false,
+          "issue_id": "extra-words",
+          "issue_description": "The license detection is conclusive with high confidence because all the rule text is matched, but some unknown extra words have been inserted in the text.",
+          "issue_type": {
+            "classification_id": "notice-and-or-with-notice",
+            "classification_description": "A notice with a complex license expression (i.e. exceptions, choices or combinations).",
             "is_license_notice": true,
-            "is_license_tag": false,
             "is_license_reference": false,
-            "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.",
-            "confidence_level": "high",
-            "suggestion": {
-              "tag": "no-review",
-              "description": "No extra manual review is necessary."
-            }
+            "is_license_tag": false,
+            "is_license_text": false,
+            "analysis_confidence": "high",
+            "is_suggested_match_text_complete": true
           },
-          "licenses": [
+          "suggested_license": {
+            "license_expression": "lgpl-2.0-plus WITH libtool-exception-2.0",
+            "matched_text": "GNU Libltdl is free software; you can redistribute it and/or\nmodify it under the terms of the GNU Lesser General Public\nLicense as published by the Free Software Foundation; either\nversion 2 of the License, or (at your option) any later version.\n\nAs a special exception to the GNU Lesser General Public License,\nif you distribute this file as part of a program or library that\nis built using GNU Libtool, you may include this file under the\nsame distribution terms that you use for the rest of that program.\n\nGNU Libltdl is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Lesser General Public License for more details.\n\nYou should have received a copy of the GNU Lesser General Public\nLicense along with GNU Libltdl; see the file COPYING.LIB.  If not, a\ncopy can be downloaded from  http://www.gnu.org/licenses/lgpl.html,\nor obtained by writing to the Free Software Foundation, Inc.,\n51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA."
+          },
+          "original_licenses": [
             {
               "key": "lgpl-2.0-plus",
               "score": 97.8,
@@ -428,170 +423,7 @@
       "is_readme": false,
       "is_top_level": true,
       "is_key_file": false,
-      "license_detection_analysis": [
-        {
-          "start_line": 5,
-          "end_line": 45,
-          "analysis": {
-            "tag": "correct-license-detection",
-            "description": "The license detection is correct"
-          },
-          "error_type": null,
-          "license_suggested": null,
-          "licenses": [
-            {
-              "key": "bsd-new",
-              "score": 100.0,
-              "name": "BSD-3-Clause",
-              "short_name": "BSD-3-Clause",
-              "category": "Permissive",
-              "is_exception": false,
-              "owner": "Regents of the University of California",
-              "homepage_url": "http://www.opensource.org/licenses/BSD-3-Clause",
-              "text_url": "http://www.opensource.org/licenses/BSD-3-Clause",
-              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:bsd-new",
-              "spdx_license_key": "BSD-3-Clause",
-              "spdx_url": "https://spdx.org/licenses/BSD-3-Clause",
-              "start_line": 5,
-              "end_line": 45,
-              "matched_rule": {
-                "identifier": "bsd-new_and_gpl-2.0-plus_with_bison-exception-2.2_2.RULE",
-                "license_expression": "bsd-new AND gpl-2.0-plus WITH bison-exception-2.2",
-                "licenses": [
-                  "bsd-new",
-                  "gpl-2.0-plus",
-                  "bison-exception-2.2"
-                ],
-                "is_license_text": false,
-                "is_license_notice": true,
-                "is_license_reference": false,
-                "is_license_tag": false,
-                "matcher": "2-aho",
-                "rule_length": 290,
-                "matched_length": 290,
-                "match_coverage": 100.0,
-                "rule_relevance": 100
-              },
-              "matched_text": "  Distributed under the OSI-approved BSD License (the \"License\");\n  see accompanying file Copyright.txt for details.\n\n  This software is distributed WITHOUT ANY WARRANTY; without even the\n  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n  See the License for more information.\n============================================================================*/\n/* A Bison parser, made by GNU Bison 2.3.  */\n\n/* Skeleton implementation for Bison's Yacc-like parsers in C\n\n   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006\n   Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU General Public License as published by\n   the Free Software Foundation; either version 2, or (at your option)\n   any later version.\n\n   This program is distributed in the hope that it will be useful,\n   but WITHOUT ANY WARRANTY; without even the implied warranty of\n   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n   GNU General Public License for more details.\n\n   You should have received a copy of the GNU General Public License\n   along with this program; if not, write to the Free Software\n   Foundation, Inc., 51 Franklin Street, Fifth Floor,\n   Boston, MA 02110-1301, USA.  */\n\n/* As a special exception, you may create a larger work that contains\n   part or all of the Bison parser skeleton and distribute that work\n   under terms of your choice, so long as that work isn't itself a\n   parser generator using the skeleton or a modified version thereof\n   as a parser skeleton.  Alternatively, if you modify or redistribute\n   the parser skeleton itself, you may (at your option) remove this\n   special exception, which will cause the skeleton and the resulting\n   Bison output files to be licensed under the GNU General Public\n   License without this special exception.\n\n   This special exception was added by the Free Software Foundation in\n   version 2.2 of Bison.  */"
-            },
-            {
-              "key": "gpl-2.0-plus",
-              "score": 100.0,
-              "name": "GNU General Public License 2.0 or later",
-              "short_name": "GPL 2.0 or later",
-              "category": "Copyleft",
-              "is_exception": false,
-              "owner": "Free Software Foundation (FSF)",
-              "homepage_url": "http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html",
-              "text_url": "http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html",
-              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:gpl-2.0-plus",
-              "spdx_license_key": "GPL-2.0-or-later",
-              "spdx_url": "https://spdx.org/licenses/GPL-2.0-or-later",
-              "start_line": 5,
-              "end_line": 45,
-              "matched_rule": {
-                "identifier": "bsd-new_and_gpl-2.0-plus_with_bison-exception-2.2_2.RULE",
-                "license_expression": "bsd-new AND gpl-2.0-plus WITH bison-exception-2.2",
-                "licenses": [
-                  "bsd-new",
-                  "gpl-2.0-plus",
-                  "bison-exception-2.2"
-                ],
-                "is_license_text": false,
-                "is_license_notice": true,
-                "is_license_reference": false,
-                "is_license_tag": false,
-                "matcher": "2-aho",
-                "rule_length": 290,
-                "matched_length": 290,
-                "match_coverage": 100.0,
-                "rule_relevance": 100
-              },
-              "matched_text": "  Distributed under the OSI-approved BSD License (the \"License\");\n  see accompanying file Copyright.txt for details.\n\n  This software is distributed WITHOUT ANY WARRANTY; without even the\n  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n  See the License for more information.\n============================================================================*/\n/* A Bison parser, made by GNU Bison 2.3.  */\n\n/* Skeleton implementation for Bison's Yacc-like parsers in C\n\n   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006\n   Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU General Public License as published by\n   the Free Software Foundation; either version 2, or (at your option)\n   any later version.\n\n   This program is distributed in the hope that it will be useful,\n   but WITHOUT ANY WARRANTY; without even the implied warranty of\n   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n   GNU General Public License for more details.\n\n   You should have received a copy of the GNU General Public License\n   along with this program; if not, write to the Free Software\n   Foundation, Inc., 51 Franklin Street, Fifth Floor,\n   Boston, MA 02110-1301, USA.  */\n\n/* As a special exception, you may create a larger work that contains\n   part or all of the Bison parser skeleton and distribute that work\n   under terms of your choice, so long as that work isn't itself a\n   parser generator using the skeleton or a modified version thereof\n   as a parser skeleton.  Alternatively, if you modify or redistribute\n   the parser skeleton itself, you may (at your option) remove this\n   special exception, which will cause the skeleton and the resulting\n   Bison output files to be licensed under the GNU General Public\n   License without this special exception.\n\n   This special exception was added by the Free Software Foundation in\n   version 2.2 of Bison.  */"
-            },
-            {
-              "key": "bison-exception-2.2",
-              "score": 100.0,
-              "name": "Bison 2.2 exception to GPL 2.0 or later",
-              "short_name": "Bison 2.2 exception to GPL 2.0 or later",
-              "category": "Copyleft Limited",
-              "is_exception": true,
-              "owner": "Free Software Foundation (FSF)",
-              "homepage_url": null,
-              "text_url": "",
-              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:bison-exception-2.2",
-              "spdx_license_key": "Bison-exception-2.2",
-              "spdx_url": "https://spdx.org/licenses/Bison-exception-2.2",
-              "start_line": 5,
-              "end_line": 45,
-              "matched_rule": {
-                "identifier": "bsd-new_and_gpl-2.0-plus_with_bison-exception-2.2_2.RULE",
-                "license_expression": "bsd-new AND gpl-2.0-plus WITH bison-exception-2.2",
-                "licenses": [
-                  "bsd-new",
-                  "gpl-2.0-plus",
-                  "bison-exception-2.2"
-                ],
-                "is_license_text": false,
-                "is_license_notice": true,
-                "is_license_reference": false,
-                "is_license_tag": false,
-                "matcher": "2-aho",
-                "rule_length": 290,
-                "matched_length": 290,
-                "match_coverage": 100.0,
-                "rule_relevance": 100
-              },
-              "matched_text": "  Distributed under the OSI-approved BSD License (the \"License\");\n  see accompanying file Copyright.txt for details.\n\n  This software is distributed WITHOUT ANY WARRANTY; without even the\n  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n  See the License for more information.\n============================================================================*/\n/* A Bison parser, made by GNU Bison 2.3.  */\n\n/* Skeleton implementation for Bison's Yacc-like parsers in C\n\n   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006\n   Free Software Foundation, Inc.\n\n   This program is free software; you can redistribute it and/or modify\n   it under the terms of the GNU General Public License as published by\n   the Free Software Foundation; either version 2, or (at your option)\n   any later version.\n\n   This program is distributed in the hope that it will be useful,\n   but WITHOUT ANY WARRANTY; without even the implied warranty of\n   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n   GNU General Public License for more details.\n\n   You should have received a copy of the GNU General Public License\n   along with this program; if not, write to the Free Software\n   Foundation, Inc., 51 Franklin Street, Fifth Floor,\n   Boston, MA 02110-1301, USA.  */\n\n/* As a special exception, you may create a larger work that contains\n   part or all of the Bison parser skeleton and distribute that work\n   under terms of your choice, so long as that work isn't itself a\n   parser generator using the skeleton or a modified version thereof\n   as a parser skeleton.  Alternatively, if you modify or redistribute\n   the parser skeleton itself, you may (at your option) remove this\n   special exception, which will cause the skeleton and the resulting\n   Bison output files to be licensed under the GNU General Public\n   License without this special exception.\n\n   This special exception was added by the Free Software Foundation in\n   version 2.2 of Bison.  */"
-            }
-          ]
-        },
-        {
-          "start_line": 126,
-          "end_line": 131,
-          "analysis": {
-            "tag": "correct-license-detection",
-            "description": "The license detection is correct"
-          },
-          "error_type": null,
-          "license_suggested": null,
-          "licenses": [
-            {
-              "key": "bsd-new",
-              "score": 100.0,
-              "name": "BSD-3-Clause",
-              "short_name": "BSD-3-Clause",
-              "category": "Permissive",
-              "is_exception": false,
-              "owner": "Regents of the University of California",
-              "homepage_url": "http://www.opensource.org/licenses/BSD-3-Clause",
-              "text_url": "http://www.opensource.org/licenses/BSD-3-Clause",
-              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:bsd-new",
-              "spdx_license_key": "BSD-3-Clause",
-              "spdx_url": "https://spdx.org/licenses/BSD-3-Clause",
-              "start_line": 126,
-              "end_line": 131,
-              "matched_rule": {
-                "identifier": "bsd-new_635.RULE",
-                "license_expression": "bsd-new",
-                "licenses": [
-                  "bsd-new"
-                ],
-                "is_license_text": false,
-                "is_license_notice": true,
-                "is_license_reference": false,
-                "is_license_tag": false,
-                "matcher": "2-aho",
-                "rule_length": 41,
-                "matched_length": 41,
-                "match_coverage": 100.0,
-                "rule_relevance": 100.0
-              },
-              "matched_text": "  Distributed under the OSI-approved BSD License (the \"License\");\n  see accompanying file Copyright.txt for details.\n\n  This software is distributed WITHOUT ANY WARRANTY; without even the\n  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n  See the License for more information."
-            }
-          ]
-        }
-      ],
+      "license_detection_issues": [],
       "is_license_text": false,
       "files_count": 0,
       "dirs_count": 0,
@@ -696,32 +528,27 @@
       "is_readme": false,
       "is_top_level": true,
       "is_key_file": false,
-      "license_detection_analysis": [
+      "license_detection_issues": [
         {
           "start_line": 11,
           "end_line": 34,
-          "analysis": {
-            "tag": "near-perfect-match-coverage",
-            "description": "The license detection is incorrect but the match is almost correct, only small percentage of the text is not matched"
-          },
-          "error_type": {
-            "tag": "notice-single-key-notice",
-            "description": "a notice that notifies a single license"
-          },
-          "license_suggested": {
-            "license_expression": "gpl-3.0-plus",
-            "is_license_text": false,
+          "issue_id": "near-perfect-match-coverage",
+          "issue_description": "The license detection is conclusive with a medium confidence because because most, but not all of the rule text is matched.",
+          "issue_type": {
+            "classification_id": "notice-single-key-notice",
+            "classification_description": "A notice with a single license.",
             "is_license_notice": true,
-            "is_license_tag": false,
             "is_license_reference": false,
-            "matched_text": " *  AutoOpts is a copyrighted work.  This source file is not encumbered\n *  by AutoOpts licensing, but is provided under the licensing terms chosen\n *  by the genshellopt author or copyright holder.  AutoOpts is\n *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>.",
-            "confidence_level": "medium",
-            "suggestion": {
-              "tag": "review-analysis",
-              "description": "The analysis/suggested match needs to be reviewed manually as there could be issues."
-            }
+            "is_license_tag": false,
+            "is_license_text": false,
+            "analysis_confidence": "high",
+            "is_suggested_match_text_complete": true
           },
-          "licenses": [
+          "suggested_license": {
+            "license_expression": "gpl-3.0-plus",
+            "matched_text": " *  AutoOpts is a copyrighted work.  This source file is not encumbered\n *  by AutoOpts licensing, but is provided under the licensing terms chosen\n *  by the genshellopt author or copyright holder.  AutoOpts is\n *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
+          },
+          "original_licenses": [
             {
               "key": "gpl-3.0-plus",
               "score": 95.7,
@@ -754,51 +581,6 @@
                 "rule_relevance": 100.0
               },
               "matched_text": " *  AutoOpts is a copyrighted work.  This source file is not encumbered\n *  by AutoOpts licensing, but is provided under the licensing terms chosen\n *  by the genshellopt author or copyright holder.  AutoOpts is\n *  licensed under the terms of the LGPL.  The redistributable library\n *  (``libopts'') is licensed under the terms of either the LGPL or, at the\n *  users discretion, the BSD license.  See the AutoOpts and/or libopts sources\n *  for details.\n *\n * This source file is copyrighted and licensed under the following terms:\n *\n * genshellopt copyright (c) 1999-2009 Bruce Korb - all rights reserved\n *\n * genshellopt is free software: you can redistribute it and/or modify it\n * under the terms of the GNU General Public License as published by the\n * Free Software Foundation, either version 3 of the License, or\n * (at your option) any later version.\n * \n * genshellopt is distributed in the hope that it will be useful, but\n * WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n * See the GNU General Public License for more details.\n * \n * You should have received a copy of the GNU General Public License along\n * with this program.  If not, see <http://www.gnu.org/licenses/>."
-            }
-          ]
-        },
-        {
-          "start_line": 54,
-          "end_line": 62,
-          "analysis": {
-            "tag": "correct-license-detection",
-            "description": "The license detection is correct"
-          },
-          "error_type": null,
-          "license_suggested": null,
-          "licenses": [
-            {
-              "key": "gpl-3.0-plus",
-              "score": 100.0,
-              "name": "GNU General Public License 3.0 or later",
-              "short_name": "GPL 3.0 or later",
-              "category": "Copyleft",
-              "is_exception": false,
-              "owner": "Free Software Foundation (FSF)",
-              "homepage_url": "http://www.gnu.org/licenses/gpl-3.0-standalone.html",
-              "text_url": "http://www.gnu.org/licenses/gpl-3.0-standalone.html",
-              "reference_url": "https://enterprise.dejacode.com/urn/urn:dje:license:gpl-3.0-plus",
-              "spdx_license_key": "GPL-3.0-or-later",
-              "spdx_url": "https://spdx.org/licenses/GPL-3.0-or-later",
-              "start_line": 54,
-              "end_line": 62,
-              "matched_rule": {
-                "identifier": "gpl-3.0-plus_210.RULE",
-                "license_expression": "gpl-3.0-plus",
-                "licenses": [
-                  "gpl-3.0-plus"
-                ],
-                "is_license_text": false,
-                "is_license_notice": true,
-                "is_license_reference": false,
-                "is_license_tag": false,
-                "matcher": "2-aho",
-                "rule_length": 100,
-                "matched_length": 100,
-                "match_coverage": 100.0,
-                "rule_relevance": 100.0
-              },
-              "matched_text": "\"genshellopt is free software: you can redistribute it and/or modify it under \\\nthe terms of the GNU General Public License as published by the Free Software \\\nFoundation, either version 3 of the License, or (at your option) any later \\\nversion.  \\\ngenshellopt is distributed in the hope that it will be useful, but WITHOUT ANY \\\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A \\\nPARTICULAR PURPOSE.  See the GNU General Public License for more details.  \\\nYou should have received a copy of the GNU General Public License along with \\\nthis program.  If not, see <http://www.gnu.org/licenses/>.\";"
             }
           ]
         }

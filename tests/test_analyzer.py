@@ -1,26 +1,11 @@
 #
 # Copyright (c) nexB Inc. and others. All rights reserved.
-# http://nexb.com and https://github.com/nexB/scancode-toolkit/
-# The ScanCode software is licensed under the Apache License version 2.0.
-# Data generated with ScanCode require an acknowledgment.
 # ScanCode is a trademark of nexB Inc.
+# SPDX-License-Identifier: Apache-2.0
+# See http://www.apache.org/licenses/LICENSE-2.0 for the license text.
+# See https://github.com/nexB/scancode-toolkit for support or download.
+# See https://aboutcode.org for more information about nexB OSS projects.
 #
-# You may not use this software except in compliance with the License.
-# You may obtain a copy of the License at: http://apache.org/licenses/LICENSE-2.0
-# Unless required by applicable law or agreed to in writing, software distributed
-# under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-# CONDITIONS OF ANY KIND, either express or implied. See the License for the
-# specific language governing permissions and limitations under the License.
-#
-# When you publish or redistribute any data created with ScanCode or any ScanCode
-# derivative work, you must accompany this data with the following acknowledgment:
-#
-#  Generated with ScanCode and provided on an "AS IS" BASIS, WITHOUT WARRANTIES
-#  OR CONDITIONS OF ANY KIND, either express or implied. No content created from
-#  ScanCode should be considered or used as legal advice. Consult an Attorney
-#  for any legal advice.
-#  ScanCode is a free software code scanning tool from nexB Inc. and others.
-#  Visit https://github.com/nexB/scancode-toolkit/ for support and download.
 
 import attr
 import os
@@ -477,12 +462,12 @@ class TestLicenseMatchErrorResult(FileBasedTesting):
     test_data_dir = os.path.join(os.path.dirname(__file__), "data/analyzer/")
 
     def test_analyze_license_matches_return_empty_list_with_none_matches(self):
-        analysis_results = analyzer.LicenseDetectionIssue.from_license_matches(None)
-        assert analysis_results == []
+        results = analyzer.LicenseDetectionIssue.from_license_matches(None)
+        assert results == []
 
     def test_analyze_license_matches_return_empty_list_with_empty_matches(self):
-        analysis_results = analyzer.LicenseDetectionIssue.from_license_matches([])
-        assert analysis_results == []
+        results = analyzer.LicenseDetectionIssue.from_license_matches([])
+        assert results == []
 
     def test_group_license_matches_by_location_and_analyze(self):
 
@@ -504,5 +489,5 @@ class TestLicenseMatchErrorResult(FileBasedTesting):
             is_license_text=is_license_text,
             is_legal=is_legal,
         )
-        analysis_results = [attr.asdict(ar) for ar in ars]
-        assert analysis_results == expected
+        results = [attr.asdict(ar) for ar in ars]
+        assert results == expected

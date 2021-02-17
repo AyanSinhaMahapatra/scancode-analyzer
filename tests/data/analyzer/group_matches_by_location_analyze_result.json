@@ -113,7 +113,7 @@
             "is_license_tag": false,
             "is_license_text": false,
             "analysis_confidence": "medium",
-            "is_suggested_match_text_complete": true
+            "is_suggested_matched_text_complete": true
           },
           "suggested_license": {
             "license_expression": "agpl-3.0-plus",
@@ -269,7 +269,7 @@
             "is_license_tag": false,
             "is_license_text": false,
             "analysis_confidence": "medium",
-            "is_suggested_match_text_complete": true
+            "is_suggested_matched_text_complete": true
           },
           "suggested_license": {
             "license_expression": "lgpl-2.0-plus",

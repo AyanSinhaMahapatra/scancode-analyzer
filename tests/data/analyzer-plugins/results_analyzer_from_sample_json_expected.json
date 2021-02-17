@@ -158,7 +158,7 @@
             "is_license_tag": false,
             "is_license_reference": false,
             "analysis_confidence": "high",
-            "is_suggested_match_text_complete": true
+            "is_suggested_matched_text_complete": true
           },
           "suggested_license": {
             "license_expression": "gpl-2.0",
@@ -594,7 +594,7 @@
             "is_license_tag": false,
             "is_license_reference": false,
             "analysis_confidence": "medium",
-            "is_suggested_match_text_complete": true
+            "is_suggested_matched_text_complete": true
           },
           "suggested_license": {
             "license_expression": "agpl-3.0-plus",
@@ -847,7 +847,7 @@
             "is_license_tag": false,
             "is_license_reference": false,
             "analysis_confidence": "high",
-            "is_suggested_match_text_complete": true
+            "is_suggested_matched_text_complete": true
           },
           "suggested_license": {
             "license_expression": "gpl-3.0-plus",
